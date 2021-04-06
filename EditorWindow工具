@@ -1,0 +1,216 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine;
+using Assets._07.Network;
+using Server;
+using SSJJ.Manager;
+using Sts.Manager;
+using Sts.SaveDataManagement;
+using Sts.Utils;
+using UnityEngine.UI;
+using DropItemData = thrift.sts.DropItemData;
+
+
+namespace Assets.Editor.QATools
+{
+
+    
+
+    public class TestTool : EditorWindow
+    {
+
+        //下面这个特性是在Unity的工具栏的入口
+        [MenuItem("QA/QA测试工具/QA测试工具")]
+        static void ShowWindow()
+        {
+            EditorWindow.GetWindow(typeof(TestTool), true, "QA测试工具");
+        }
+
+        string str_cmd = "";
+        GUIStyle style_skillbook = new GUIStyle("Button");
+        GUIStyle style_skillbook100 = new GUIStyle("Button");
+        GUIStyle style_green = new GUIStyle("Button");
+
+        private void Awake()
+        {
+            //颜色字体样式
+            style_skillbook.normal.textColor = Color.red;
+            style_skillbook100.normal.textColor = Color.red;
+            style_green.normal.textColor = Color.green;
+        }
+
+        void OnGUI()
+        {
+            GUILayout.Space(10f);
+            GUILayout.BeginHorizontal();
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("指令：", GUILayout.Width(50f));
+                //文本字段
+                str_cmd = GUILayout.TextField(str_cmd, GUILayout.ExpandWidth(true));
+            }
+            if (GUILayout.Button("提交", GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd(str_cmd);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(10f);
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("加技能证书*1", style_skillbook, GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd("item 2 2700000 1");
+            }
+            if (GUILayout.Button("加技能证书*100", style_skillbook100, GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd("item 2 2700000 100");
+            }
+            if (GUILayout.Button("跳过新手引导", style_green, GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd("guide");
+                //请使用游戏中的全局携程
+                //XXXXX.StartCoroutine(ExecuteCmds(list_cmds));
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        /// <summary>
+        /// 批量执行GM指令
+        /// </summary>
+        /// <param name="invincible">作弊指令列表</param>
+        /// <returns></returns>
+        public IEnumerator ExecuteCmds(ArrayList list_cmds)
+        {
+            foreach (string cmd in list_cmds)
+            {
+                SubmitCmd(cmd);
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        /// <summary>
+        /// 发送作弊指令给服务器
+        /// </summary>
+        /// <param name="cmd">作弊指令</param>
+        void SubmitCmd(string cmd)
+        {
+            if (Command_FinishGuide(cmd, "guide")) return;
+            if (Command_GetItem(cmd, "item")) return;
+
+
+
+        }
+
+
+        bool Command_FinishGuide(string cmd, string key)
+        {
+            if (cmd.IndexOf(key) == 0)
+            {
+                try
+                {
+                    DataManager.Instance.finishGuide = true;
+                    EventManager.Instance.RaiseEvent("结束新手引导流程");
+                    //PrintLog($"{DataManager.Instance.userName} 试图跳过当前新手流程!", LogType.Log);
+                }
+                catch
+                {
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        bool Command_GetItem(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length >= 3)
+                {
+                    try
+                    {
+                        int type = int.Parse(paras[1]);
+                        int id = int.Parse(paras[2]);
+                        int amount = 1;
+                        //选参
+                        if (paras.Length > 3)
+                            amount = int.Parse(paras[3]);
+                        if (amount <= 0) amount = 1;
+
+                        switch (type)
+                        {
+                            case 1:
+                                var equipment = TplManager.Instance.GetEquipmentByID(id);
+                                if (equipment != null)
+                                {
+                                    DataManager.Instance.AcquireItem(equipment);
+                                    //PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+                                }
+                                else
+                                {
+                                    //PrintLog($"Can't find equipment by id <{id}>", LogType.Error);
+                                }
+                                break;
+                            case 2:
+                                var material = TplManager.Instance.GetMaterialByID(id);
+                                //if (id == ConstDataManager.法力之尘ID)
+                                //{
+                                //    DataManager.Instance.ChangeManaDust(amount);
+                                //}
+                                if (material != null)
+                                {
+                                    material = material.clone;
+                                    DataManager.Instance.AcquireItem(material, amount);
+                                    //PrintLog($"Acquired material [{material.name} *{amount}]", LogType.Log);
+                                    //Debug.LogError("这里正在怎加粉末------------------------------------------");
+                                }
+                                else
+                                {
+                                    //PrintLog($"Can't find material by id <{id}>", LogType.Error);
+                                }
+                                break;
+                            case 3:
+                                var consumable = TplManager.Instance.GetConsumableByID(id);
+                                if (consumable != null)
+                                {
+                                    consumable = consumable.clone;
+                                    DataManager.Instance.AcquireItem(consumable, amount);
+                                    //PrintLog($"Acquired material [{consumable.name} *{amount}]", LogType.Log);
+                                }
+                                else
+                                {
+                                    //PrintLog($"Can't find consumable by id <{id}>", LogType.Error);
+                                }
+                                break;
+                            default:
+                                //PrintLog($"Can't find type <{type}>", LogType.Error);
+                                break;
+                        }
+                    }
+                    //如果转换失败就报错
+                    catch
+                    {
+                        //PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material only)]", LogType.Error);
+                    }
+                }
+                else
+                {
+                    //PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material use only)]", LogType.Error);
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+
+    }
+
+}

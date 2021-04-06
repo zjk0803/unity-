@@ -34,27 +34,32 @@ namespace Assets.Editor.QATools
         string str_cmd = "";
         GUIStyle style_skillbook = new GUIStyle("Button");
         GUIStyle style_skillbook100 = new GUIStyle("Button");
+        GUIStyle style_skillsly100 = new GUIStyle("Button");
+        GUIStyle style_skilldjj100 = new GUIStyle("Button");
         GUIStyle style_green = new GUIStyle("Button");
+        string str_cmd1 = "";
 
         private void Awake()
         {
             //颜色字体样式
             style_skillbook.normal.textColor = Color.red;
             style_skillbook100.normal.textColor = Color.red;
+            style_skillsly100.normal.textColor = Color.red;
+            style_skilldjj100.normal.textColor = Color.red;
             style_green.normal.textColor = Color.green;
         }
 
         void OnGUI()
         {
-            GUILayout.Space(10f);
+            GUILayout.Space(10f);   
             GUILayout.BeginHorizontal();
             {
                 //GUILayout.Label  文本显示
                 GUILayout.Label("指令：", GUILayout.Width(50f));
                 //文本字段
-                str_cmd = GUILayout.TextField(str_cmd, GUILayout.ExpandWidth(true));
+                str_cmd = GUILayout.TextField(str_cmd, GUILayout.Width(80f));
             }
-            if (GUILayout.Button("提交", GUILayout.ExpandWidth(true)))
+            if (GUILayout.Button("确定", GUILayout.Width(50f)))
             {
                 SubmitCmd(str_cmd);
             }
@@ -63,21 +68,48 @@ namespace Assets.Editor.QATools
             GUILayout.Space(10f);
             GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("加技能证书*1", style_skillbook, GUILayout.ExpandWidth(true)))
+            if (GUILayout.Button("技能证书*1", style_skillbook, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2700000 1");
             }
-            if (GUILayout.Button("加技能证书*100", style_skillbook100, GUILayout.ExpandWidth(true)))
+            if (GUILayout.Button("技能证书*100", style_skillbook100, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2700000 100");
             }
-            if (GUILayout.Button("跳过新手引导", style_green, GUILayout.ExpandWidth(true)))
+            if (GUILayout.Button("圣礼盐*100", style_skillsly100, GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd("item 2 2201 100");
+            }
+            if (GUILayout.Button("代金券*100", style_skilldjj100, GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd("item 2 2606 100");
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10f);
+            if (GUILayout.Button("跳过新手引导", style_green, GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("guide");
                 //请使用游戏中的全局携程
                 //XXXXX.StartCoroutine(ExecuteCmds(list_cmds));
             }
             GUILayout.EndHorizontal();
+            GUILayout.Space(10f);
+            GUILayout.BeginHorizontal();
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("跳关：", GUILayout.Width(50f));
+                //文本字段
+                str_cmd1 = GUILayout.TextField(str_cmd1, GUILayout.Width(50f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("blink "+str_cmd1);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(10f);
+            GUILayout.BeginHorizontal();
+
         }
 
         /// <summary>
@@ -102,6 +134,7 @@ namespace Assets.Editor.QATools
         {
             if (Command_FinishGuide(cmd, "guide")) return;
             if (Command_GetItem(cmd, "item")) return;
+            if (Command_blinkLevel(cmd, "blink")) return;
 
 
 
@@ -126,11 +159,11 @@ namespace Assets.Editor.QATools
             }
             return false;
         }
-        bool Command_GetItem(string command, string key)
+        bool Command_GetItem(string cmd, string key)
         {
-            if (command.IndexOf(key + " ") == 0)
+            if (cmd.IndexOf(key + " ") == 0)
             {
-                var paras = command.Split(' ');
+                var paras = cmd.Split(' ');
 
                 if (paras.Length >= 3)
                 {
@@ -209,6 +242,104 @@ namespace Assets.Editor.QATools
 
             return false;
         }
+        bool Command_blinkLevel(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 3 || paras.Length == 4)
+                {
+                    try
+                    {
+                        int chapter = int.Parse(paras[1]);
+                        int level = int.Parse(paras[2]);
+                        int type;
+                        if (paras.Length == 4)
+                        {
+                            type = int.Parse(paras[3]);
+                        }
+                        else
+                        {
+                            type = 0;
+                        }
+                        EventManager.Instance.RaiseEvent("Blink", new ArrayList { chapter, level, type });
+                       // PrintLog($"They who live by the wand shall die by my blade!", LogType.Log);
+                    }
+                    catch
+                    {
+                       // PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    //PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        bool Command_BlinkStory(string cmd, string key)
+        {
+            if (cmd.IndexOf(key + " ") == 0)
+            {
+                var paras = cmd.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        float storykey = float.Parse(paras[1]);
+
+                        if (storykey == 1)
+                        {
+                            EventManager.Instance.RaiseEvent("强制回收剧情流程_编辑模式下");
+                            EventManager.Instance.RaiseEvent("UI摄像机层级恢复");
+                        }
+
+                        if (storykey == 2)
+                        {
+                            HeroTeamInfo info = DataManager.Instance.GetHeroTeamInfoByType(FormationTypes.storyBattle);
+
+                            bool b = false;
+                            foreach (var item in info.teamHeros)
+                            {
+                                if (item != null)
+                                    if (item.udid != 0)
+                                    {
+                                        b = true;
+                                        break;
+                                    }
+                            }
+                            if (!b)
+                            {
+                                DataManager.Instance.SetStoryBattleHero();
+                            }
+                            VisibleInfoModel.Instance.ChangeVisiblePattern(UIVisiblePattern.chapter);
+
+                            StartStory_ctrl.instance.SaveStory("Story_第一章_01");
+                            BattleGameManager.instance.isStoryOver = true;
+                            BattleGameManager.instance.uiLoading.SetVisible(true);
+                            Timeline_Ctrl.instance.EndTimeline(name, false);
+
+                            Browsethestory.instance.battleCtrl.BeginStoryBattle(StoryDatamanager.instance.startStory_Model.GetStory());
+                        }
+
+                    }
+                    catch
+                    {
+                        Debug.LogError("跳剧情指令输入错误");
+                    }
+                }
+
+
+
+                return true;
+            }
+            return false;
+        }
+
 
 
     }

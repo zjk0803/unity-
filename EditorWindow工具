@@ -32,46 +32,41 @@ namespace Assets.Editor.QATools
         }
 
         string str_cmd = "";
-        GUIStyle style_skillbook = new GUIStyle("Button");
         GUIStyle style_skillbook100 = new GUIStyle("Button");
         GUIStyle style_skillsly100 = new GUIStyle("Button");
         GUIStyle style_skilldjj100 = new GUIStyle("Button");
         GUIStyle style_green = new GUIStyle("Button");
+        GUIStyle style_menpiao = new GUIStyle("Button");
+        GUIStyle style_行动力100 = new GUIStyle("Button");
         string str_cmd1 = "";
+        string str_cmd2 = "";
+        string str_cmd3 = "";
+        string str_cmd4 = "";
+        string str_cmd5 = "";
+        string str_cmd6 = "";
+
 
         private void Awake()
         {
             //颜色字体样式
-            style_skillbook.normal.textColor = Color.red;
             style_skillbook100.normal.textColor = Color.red;
             style_skillsly100.normal.textColor = Color.red;
             style_skilldjj100.normal.textColor = Color.red;
+            style_行动力100.normal.textColor = Color.red;
             style_green.normal.textColor = Color.green;
-        }
+            style_menpiao.normal.textColor = Color.green;
+         }
 
         void OnGUI()
         {
             GUILayout.Space(10f);   
             GUILayout.BeginHorizontal();
-            {
-                //GUILayout.Label  文本显示
-                GUILayout.Label("指令：", GUILayout.Width(50f));
-                //文本字段
-                str_cmd = GUILayout.TextField(str_cmd, GUILayout.Width(80f));
-            }
-            if (GUILayout.Button("确定", GUILayout.Width(50f)))
-            {
-                SubmitCmd(str_cmd);
-            }
+          
             GUILayout.EndHorizontal();
 
             GUILayout.Space(10f);
             GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("技能证书*1", style_skillbook, GUILayout.ExpandWidth(true)))
-            {
-                SubmitCmd("item 2 2700000 1");
-            }
             if (GUILayout.Button("技能证书*100", style_skillbook100, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2700000 100");
@@ -84,6 +79,10 @@ namespace Assets.Editor.QATools
             {
                 SubmitCmd("item 2 2606 100");
             }
+            if (GUILayout.Button("行动力道具*100",style_行动力100,GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd("item 2 100801 100");
+            }
             GUILayout.EndHorizontal();
             GUILayout.Space(10f);
             if (GUILayout.Button("跳过新手引导", style_green, GUILayout.ExpandWidth(false)))
@@ -92,6 +91,10 @@ namespace Assets.Editor.QATools
                 //请使用游戏中的全局携程
                 //XXXXX.StartCoroutine(ExecuteCmds(list_cmds));
             }
+            if (GUILayout.Button("竞技场门票*100", style_skilldjj100, GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("item 2 2608 100");
+            }
             GUILayout.EndHorizontal();
             GUILayout.Space(10f);
             GUILayout.BeginHorizontal();
@@ -99,16 +102,81 @@ namespace Assets.Editor.QATools
                 //GUILayout.Label  文本显示
                 GUILayout.Label("跳关：", GUILayout.Width(50f));
                 //文本字段
-                str_cmd1 = GUILayout.TextField(str_cmd1, GUILayout.Width(50f));
+                str_cmd1 = GUILayout.TextField(str_cmd1, GUILayout.Width(70f));
             }
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("blink "+str_cmd1);
             }
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("货币一键加减：", GUILayout.Width(70f));
+                //文本字段
+                str_cmd4 = GUILayout.TextField(str_cmd4, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1000 " + str_cmd4);
+                SubmitCmd("currency 1001 " + str_cmd4);
+                SubmitCmd("currency 1002 " + str_cmd4);
+                SubmitCmd("currency 1003 " + str_cmd4);
+                SubmitCmd("currency 1004 " + str_cmd4);
+                SubmitCmd("currency 1005 " + str_cmd4);
+                SubmitCmd("currency 1006 " + str_cmd4);
+                SubmitCmd("currency 1007 " + str_cmd4);
+                SubmitCmd("currency 1008 " + str_cmd4);
+                SubmitCmd("currency 1009 " + str_cmd4);
+                SubmitCmd("currency 1010 " + str_cmd4);
+                SubmitCmd("currency 1011 " + str_cmd4);
+                SubmitCmd("currency 1012 " + str_cmd4);
+                SubmitCmd("currency 1013 " + str_cmd4);
+                SubmitCmd("currency 1014 " + str_cmd4);
+            }
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("阅历：", GUILayout.Width(50f));
+                //文本字段
+                str_cmd5 = GUILayout.TextField(str_cmd5, GUILayout.Width(50f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1016 " + str_cmd5);
+               
+            }
+
             GUILayout.EndHorizontal();
 
             GUILayout.Space(10f);
             GUILayout.BeginHorizontal();
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("绝境徽章个数：", GUILayout.Width(70f));
+                //文本字段
+                str_cmd2 = GUILayout.TextField(str_cmd2, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1011 " + str_cmd2);
+            }
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("宝珠金币经验钻石一键加减：", GUILayout.Width(150f));
+                //文本字段
+                str_cmd3 = GUILayout.TextField(str_cmd3, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1000 " + str_cmd3);
+                SubmitCmd("currency 1001 " + str_cmd3);
+                SubmitCmd("currency 1004 " + str_cmd3);
+                SubmitCmd("currency 1006 " + str_cmd3);
+            }
+
+            GUILayout.Space(10f);
+            GUILayout.Space(10f);
 
         }
 
@@ -135,6 +203,7 @@ namespace Assets.Editor.QATools
             if (Command_FinishGuide(cmd, "guide")) return;
             if (Command_GetItem(cmd, "item")) return;
             if (Command_blinkLevel(cmd, "blink")) return;
+            if (Command_Currency(cmd, "currency")) return;
 
 
 
@@ -280,64 +349,80 @@ namespace Assets.Editor.QATools
             return false;
         }
 
-        bool Command_BlinkStory(string cmd, string key)
+        //bool Command_BlinkStory(string cmd, string key)
+        //{
+        //    if (cmd.IndexOf(key + " ") == 0)
+        //    {
+        //        var paras = cmd.Split(' ');
+
+        //        if (paras.Length == 2)
+        //        {
+        //            try
+        //            {
+        //                float storykey = float.Parse(paras[1]);
+
+        //                if (storykey == 1)
+        //                {
+        //                    EventManager.Instance.RaiseEvent("强制回收剧情流程_编辑模式下");
+        //                    EventManager.Instance.RaiseEvent("UI摄像机层级恢复");
+        //                }
+
+        //                if (storykey == 2)
+        //                {
+        //                    HeroTeamInfo info = DataManager.Instance.GetHeroTeamInfoByType(FormationTypes.storyBattle);
+
+        //                    bool b = false;
+        //                    foreach (var item in info.teamHeros)
+        //                    {
+        //                        if (item != null)
+        //                            if (item.udid != 0)
+        //                            {
+        //                                b = true;
+        //                                break;
+        //                            }
+        //                    }
+        //                    if (!b)
+        //                    {
+        //                        DataManager.Instance.SetStoryBattleHero();
+        //                    }
+        //                    VisibleInfoModel.Instance.ChangeVisiblePattern(UIVisiblePattern.chapter);
+
+        //                    StartStory_ctrl.instance.SaveStory("Story_第一章_01");
+        //                    BattleGameManager.instance.isStoryOver = true;
+        //                    BattleGameManager.instance.uiLoading.SetVisible(true);
+        //                    Timeline_Ctrl.instance.EndTimeline(name, false);
+
+        //                    //Browsethestory.instance.battleCtrl.BeginStoryBattle(StoryDatamanager.instance.startStory_Model.GetStory());
+        //                }
+
+        //            }
+        //            catch
+        //            {
+        //                Debug.LogError("跳剧情指令输入错误");
+        //            }
+        //        }
+
+
+
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+
+
+        bool Command_Currency(string command, string key)
         {
-            if (cmd.IndexOf(key + " ") == 0)
+            if (command.IndexOf(key + " ") == 0)
             {
-                var paras = cmd.Split(' ');
-
-                if (paras.Length == 2)
-                {
-                    try
-                    {
-                        float storykey = float.Parse(paras[1]);
-
-                        if (storykey == 1)
-                        {
-                            EventManager.Instance.RaiseEvent("强制回收剧情流程_编辑模式下");
-                            EventManager.Instance.RaiseEvent("UI摄像机层级恢复");
-                        }
-
-                        if (storykey == 2)
-                        {
-                            HeroTeamInfo info = DataManager.Instance.GetHeroTeamInfoByType(FormationTypes.storyBattle);
-
-                            bool b = false;
-                            foreach (var item in info.teamHeros)
-                            {
-                                if (item != null)
-                                    if (item.udid != 0)
-                                    {
-                                        b = true;
-                                        break;
-                                    }
-                            }
-                            if (!b)
-                            {
-                                DataManager.Instance.SetStoryBattleHero();
-                            }
-                            VisibleInfoModel.Instance.ChangeVisiblePattern(UIVisiblePattern.chapter);
-
-                            StartStory_ctrl.instance.SaveStory("Story_第一章_01");
-                            BattleGameManager.instance.isStoryOver = true;
-                            BattleGameManager.instance.uiLoading.SetVisible(true);
-                            Timeline_Ctrl.instance.EndTimeline(name, false);
-
-                            Browsethestory.instance.battleCtrl.BeginStoryBattle(StoryDatamanager.instance.startStory_Model.GetStory());
-                        }
-
-                    }
-                    catch
-                    {
-                        Debug.LogError("跳剧情指令输入错误");
-                    }
-                }
-
-
-
+                var para = command.Split(' ');
+                DataManager.Instance.GMAddCurrency(para[1].ToInt(), para[2].ToLong());
                 return true;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
 

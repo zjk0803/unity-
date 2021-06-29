@@ -12,179 +12,435 @@ using SSJJ.Manager;
 using Sts.Manager;
 using Sts.SaveDataManagement;
 using Sts.Utils;
+using thrift.sts;
+
 using UnityEngine.UI;
 using DropItemData = thrift.sts.DropItemData;
 
 
-namespace Assets.Editor.QATools
+namespace Assets.Editor.QATools1
 {
 
-    
+
 
     public class TestTool : EditorWindow
     {
 
         //下面这个特性是在Unity的工具栏的入口
-        [MenuItem("QA/QA测试工具/QA测试工具")]
+        [MenuItem("QA/控制台")]
         static void ShowWindow()
         {
-            EditorWindow.GetWindow(typeof(TestTool), true, "QA测试工具");
-        }
+            EditorWindow.GetWindow(typeof(TestTool), true, "控制台");
+        }   
+        public Text logText;
+        public InputField commandInputFiled;
+        string str_Common = "";
+        string str_AllCurrency = "";
+        string str_ZuanShi = "";
+        string str_MoJingShi = "";
+        string str_LuLa = "";
+        string str_HuiXiang = "";
+        string str_LingHunJingYan = "";
+        string str_XingDongLi = "";
+        string str_YueLi = "";
+        string str_GuBi = "";
+        string str_MiGongCoin = "";
+        string str_RongYaoCoin = "";
+        string str_JiDiCoin = "";
+        string str_GongHuiCoin = "";
+        string str_QHJieJing = "";
+        string str_QHShi = "";
+        string str_QHFenChen = "";
+        GUIStyle str_SkillBook = new GUIStyle("Button");
+        GUIStyle str_ShengLiYan = new GUIStyle("Button");
+        GUIStyle str_Voucher = new GUIStyle("Button");
+        GUIStyle str_WipeOut = new GUIStyle("Button");
+        GUIStyle str_JingJiChangCheck = new GUIStyle("Button");
+        GUIStyle guide = new GUIStyle("Button");
+        string 跳关 = "";
+        string info = "";
 
-        string str_cmd = "";
-        GUIStyle style_skillbook100 = new GUIStyle("Button");
-        GUIStyle style_skillsly100 = new GUIStyle("Button");
-        GUIStyle style_skilldjj100 = new GUIStyle("Button");
-        GUIStyle style_green = new GUIStyle("Button");
-        GUIStyle style_menpiao = new GUIStyle("Button");
-        GUIStyle style_行动力100 = new GUIStyle("Button");
-        string str_cmd1 = "";
-        string str_cmd2 = "";
-        string str_cmd3 = "";
-        string str_cmd4 = "";
-        string str_cmd5 = "";
-        string str_cmd6 = "";
 
 
         private void Awake()
         {
             //颜色字体样式
-            style_skillbook100.normal.textColor = Color.red;
-            style_skillsly100.normal.textColor = Color.red;
-            style_skilldjj100.normal.textColor = Color.red;
-            style_行动力100.normal.textColor = Color.red;
-            style_green.normal.textColor = Color.green;
-            style_menpiao.normal.textColor = Color.green;
-         }
+            str_SkillBook.normal.textColor = Color.cyan;
+            str_ShengLiYan.normal.textColor = Color.gray;
+            str_Voucher.normal.textColor = Color.magenta;
+            str_WipeOut.normal.textColor = Color.green;
+            str_JingJiChangCheck.normal.textColor = Color.yellow;
+            guide.normal.textColor = Color.cyan;
 
+            //.normal.textColor = Color.red;
+
+
+
+        }
         void OnGUI()
         {
-            GUILayout.Space(10f);   
             GUILayout.BeginHorizontal();
-          
+            //{
+            //    //GUILayout.Label  文本显示
+            //    GUILayout.Label("通用指令：", GUILayout.Width(50f));
+            //    //文本字段
+            //    str_Common = GUILayout.TextField(str_Common, 20, GUILayout.Width(150f));
+            //}
+            //if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            //{
+            //    SubmitCmd(str_Common);
+            //}
+            GUILayout.Space(20f);
+            GUILayout.EndHorizontal();
+            //GUILayout.Label("------------------------------------------货币------------------------------------------", GUILayout .Width(600f));
+            string aa = "-----------------货币----------------";
+            GUIStyle bb = new GUIStyle();
+            bb.normal.background = null;    //这是设置背景填充的
+            bb.normal.textColor = new Color(220, 223, 0);   //设置字体颜色的
+            bb.fontSize = 20;       //当然，这是字体颜色
+            GUI.Label(new Rect(98, 10, 200, 200), aa, bb);
+            GUILayout.Space(45f);
+
+            GUILayout.BeginHorizontal();
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("所有货币一键加减：", GUILayout.Width(100f));
+                //文本字段
+                str_AllCurrency = GUILayout.TextField(str_AllCurrency, 20, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1000 " + str_AllCurrency);
+                SubmitCmd("currency 1001 " + str_AllCurrency);
+                SubmitCmd("currency 1002 " + str_AllCurrency);
+                SubmitCmd("currency 1003 " + str_AllCurrency);
+                SubmitCmd("currency 1004 " + str_AllCurrency);
+                SubmitCmd("currency 1005 " + str_AllCurrency);
+                SubmitCmd("currency 1006 " + str_AllCurrency);
+                SubmitCmd("currency 1007 " + str_AllCurrency);
+                SubmitCmd("currency 1008 " + str_AllCurrency);
+                SubmitCmd("currency 1009 " + str_AllCurrency);
+                SubmitCmd("currency 1010 " + str_AllCurrency);
+                SubmitCmd("currency 1011 " + str_AllCurrency);
+                SubmitCmd("currency 1012 " + str_AllCurrency);
+                SubmitCmd("currency 1013 " + str_AllCurrency);
+                SubmitCmd("currency 1014 " + str_AllCurrency);
+                info = "所有货币+" + str_AllCurrency;
+            }
             GUILayout.EndHorizontal();
 
             GUILayout.Space(10f);
             GUILayout.BeginHorizontal();
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("钻石：", GUILayout.Width(60f));
+                //文本字段
+                str_ZuanShi = GUILayout.TextField(str_ZuanShi, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1000 " + str_ZuanShi);
+                info = "获得钻石" + str_ZuanShi;
+            }
 
-            if (GUILayout.Button("技能证书*100", style_skillbook100, GUILayout.ExpandWidth(true)))
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("魔晶石：", GUILayout.Width(60f));
+                //文本字段
+                str_MoJingShi = GUILayout.TextField(str_MoJingShi, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1006 " + str_MoJingShi);
+                info = "获得魔晶石" + str_MoJingShi + "个";
+            }
+
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("路拉：", GUILayout.Width(60f));
+                //文本字段
+                str_LuLa = GUILayout.TextField(str_LuLa, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1001 " + str_LuLa);
+                info = "获得路拉" + str_LuLa;
+            }
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("回响：", GUILayout.Width(60f));
+                //文本字段
+                str_HuiXiang = GUILayout.TextField(str_HuiXiang, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1004 " + str_HuiXiang);
+                info = "获得回响" + str_HuiXiang;
+            }
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("灵魂经验：", GUILayout.Width(60f));
+                //文本字段
+                str_LingHunJingYan = GUILayout.TextField(str_LingHunJingYan, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1002 " + str_LingHunJingYan);
+                info = "获得灵魂经验" + str_LingHunJingYan;
+            }
+
+            GUILayout.EndHorizontal();
+
+
+            string cc = "--------------黑市货币--------------";
+            GUIStyle dd = new GUIStyle();
+            dd.normal.background = null;    //这是设置背景填充的
+            dd.normal.textColor = new Color(0, 223, 200);   //设置字体颜色的
+            dd.fontSize = 20;       //当然，这是字体颜色
+            GUI.Label(new Rect(100, 130, 200, 200), cc, dd);
+
+
+
+            GUILayout.Space(50f);
+            GUILayout.BeginHorizontal();
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("古币：", GUILayout.Width(60f));
+                //文本字段
+                str_GuBi = GUILayout.TextField(str_GuBi, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1007 " + str_GuBi);
+                info = "获得古币" + str_GuBi;
+
+
+            }
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("迷宫硬币：", GUILayout.Width(60f));
+                //文本字段
+                str_MiGongCoin = GUILayout.TextField(str_MiGongCoin, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1008 " + str_MiGongCoin);
+                info = "获得迷宫硬币" + str_MiGongCoin;
+            }
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("荣耀硬币：", GUILayout.Width(60f));
+                //文本字段
+                str_RongYaoCoin = GUILayout.TextField(str_RongYaoCoin, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1009 " + str_RongYaoCoin);
+                info = "获得荣耀硬币" + str_RongYaoCoin;
+            }
+
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("极地硬币：", GUILayout.Width(60f));
+                //文本字段
+                str_JiDiCoin = GUILayout.TextField(str_JiDiCoin, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1011 " + str_JiDiCoin);
+                info = "获得极地硬币" + str_JiDiCoin;
+            }
+
+
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("公会硬币：", GUILayout.Width(60f));
+                //文本字段
+                str_GongHuiCoin = GUILayout.TextField(str_GongHuiCoin, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1012 " + str_GongHuiCoin);
+                info = "获得公会" + str_GongHuiCoin;
+            }
+
+
+            GUILayout.EndHorizontal();
+
+
+
+            string ee = "--------------工坊货币--------------";
+            GUIStyle ff = new GUIStyle();
+            ff.normal.background = null;    //这是设置背景填充的
+            ff.normal.textColor = new Color(223, 0, 200);   //设置字体颜色的
+            ff.fontSize = 20;       //当然，这是字体颜色
+            GUI.Label(new Rect(100, 220, 200, 200), ee, ff);
+            GUILayout.Space(50f);
+            GUILayout.BeginHorizontal();
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("强化结晶：", GUILayout.Width(60f));
+                //文本字段
+                str_QHJieJing = GUILayout.TextField(str_QHJieJing, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1014 " + str_QHJieJing);
+                info = "获得强化结晶" + str_QHJieJing;
+            }
+
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("强化石：", GUILayout.Width(60f));
+                //文本字段
+                str_QHShi = GUILayout.TextField(str_QHShi, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1013 " + str_QHShi);
+                info = "获得强化石" + str_QHShi;
+            }
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("强化粉尘：", GUILayout.Width(60f));
+                //文本字段
+                str_QHFenChen = GUILayout.TextField(str_QHFenChen, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("currency 1010 " + str_QHFenChen);
+                info = "获得强化粉尘" + str_QHFenChen;
+            }
+
+            GUILayout.EndHorizontal();
+
+
+            string gg = "-----------------道具----------------";
+            GUIStyle hh = new GUIStyle();
+            hh.normal.background = null;    //这是设置背景填充的
+            hh.normal.textColor = new Color(1, 0, 0);   //设置字体颜色的
+            hh.fontSize = 20;       //当然，这是字体颜色
+            GUI.Label(new Rect(98, 290, 200, 200), gg, hh);
+            GUILayout.Space(50f);
+
+
+
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("技能证书*100", str_SkillBook, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2700000 100");
+                info = "获得技能证书 100";
             }
-            if (GUILayout.Button("圣礼盐*100", style_skillsly100, GUILayout.ExpandWidth(true)))
+
+            GUI.Label(new Rect(30, 400, 100, 20), info);
+            if (GUILayout.Button("圣礼盐*100", str_ShengLiYan, GUILayout.ExpandWidth(true)))
             {
+
                 SubmitCmd("item 2 2201 100");
+                info = "圣礼盐 100";
             }
-            if (GUILayout.Button("代金券*100", style_skilldjj100, GUILayout.ExpandWidth(true)))
+            if (GUILayout.Button("代金券*100", str_Voucher, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2606 100");
+                info = "代金券 100";
             }
-            if (GUILayout.Button("行动力道具*100",style_行动力100,GUILayout.ExpandWidth(true)))
+            if (GUILayout.Button("扫荡卷*100", str_WipeOut, GUILayout.ExpandWidth(true)))
             {
-                SubmitCmd("item 2 100801 100");
+                SubmitCmd("item 2 2601 100");
+                info = "扫荡卷 100";
             }
+            if (GUILayout.Button("竞技场门票*100", str_JingJiChangCheck, GUILayout.ExpandWidth(true)))
+            {
+                SubmitCmd("item 2 390001 100");
+                info = "竞技场门票 100";
+            }
+
+            GUILayout.EndHorizontal();
             GUILayout.EndHorizontal();
             GUILayout.Space(10f);
-            if (GUILayout.Button("跳过新手引导", style_green, GUILayout.ExpandWidth(false)))
+            GUILayout.BeginHorizontal();
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("跳关：", GUILayout.Width(60f));
+                //文本字段
+                跳关 = GUILayout.TextField(跳关, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                SubmitCmd("blink " + 跳关);
+                info = "调至" + 跳关;
+            }
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("查询英雄id：", GUILayout.Width(60f));
+                //文本字段
+                跳关 = GUILayout.TextField(跳关, 25, GUILayout.Width(70f));
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            {
+                string command1=""; 
+                var paras = command1.Split(' ');
+                int id = int.Parse(paras[1]);
+                var hero = TplManager.Instance.GetHeroByID(id);
+                info = Convert.ToString(id);
+            }
+
+
+
+            {
+                //GUILayout.Label  文本显示
+                GUILayout.Label("通用指令：", GUILayout.Width(60f));
+
+                //文本字段
+                str_Common = GUILayout.TextField(str_Common,25, GUILayout.Width(170f),GUILayout.Height(50f));
+
+            }
+            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+
+            //if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Space)
+            //if (GUILayout.Button(Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Return))
+            {
+                SubmitCmd(str_Common);
+                Input.GetKeyDown(KeyCode.Return);
+            }
+            GUILayout.Space(10f);
+
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10f);
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("跳过新手引导", guide, GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("guide");
+                info = "跳过新手引导";
                 //请使用游戏中的全局携程
                 //XXXXX.StartCoroutine(ExecuteCmds(list_cmds));
             }
-            if (GUILayout.Button("竞技场门票*100", style_skilldjj100, GUILayout.ExpandWidth(false)))
-            {
-                SubmitCmd("item 2 2608 100");
-            }
-            GUILayout.EndHorizontal();
-            GUILayout.Space(10f);
-            GUILayout.BeginHorizontal();
-            {
-                //GUILayout.Label  文本显示
-                GUILayout.Label("跳关：", GUILayout.Width(50f));
-                //文本字段
-                str_cmd1 = GUILayout.TextField(str_cmd1, GUILayout.Width(70f));
-            }
-            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
-            {
-                SubmitCmd("blink "+str_cmd1);
-            }
-            {
-                //GUILayout.Label  文本显示
-                GUILayout.Label("货币一键加减：", GUILayout.Width(70f));
-                //文本字段
-                str_cmd4 = GUILayout.TextField(str_cmd4, GUILayout.Width(70f));
-            }
-            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
-            {
-                SubmitCmd("currency 1000 " + str_cmd4);
-                SubmitCmd("currency 1001 " + str_cmd4);
-                SubmitCmd("currency 1002 " + str_cmd4);
-                SubmitCmd("currency 1003 " + str_cmd4);
-                SubmitCmd("currency 1004 " + str_cmd4);
-                SubmitCmd("currency 1005 " + str_cmd4);
-                SubmitCmd("currency 1006 " + str_cmd4);
-                SubmitCmd("currency 1007 " + str_cmd4);
-                SubmitCmd("currency 1008 " + str_cmd4);
-                SubmitCmd("currency 1009 " + str_cmd4);
-                SubmitCmd("currency 1010 " + str_cmd4);
-                SubmitCmd("currency 1011 " + str_cmd4);
-                SubmitCmd("currency 1012 " + str_cmd4);
-                SubmitCmd("currency 1013 " + str_cmd4);
-                SubmitCmd("currency 1014 " + str_cmd4);
-            }
 
-            {
-                //GUILayout.Label  文本显示
-                GUILayout.Label("阅历：", GUILayout.Width(50f));
-                //文本字段
-                str_cmd5 = GUILayout.TextField(str_cmd5, GUILayout.Width(50f));
-            }
-            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
-            {
-                SubmitCmd("currency 1016 " + str_cmd5);
-               
-            }
 
-            GUILayout.EndHorizontal();
 
-            GUILayout.Space(10f);
-            GUILayout.BeginHorizontal();
-
-            {
-                //GUILayout.Label  文本显示
-                GUILayout.Label("绝境徽章个数：", GUILayout.Width(70f));
-                //文本字段
-                str_cmd2 = GUILayout.TextField(str_cmd2, GUILayout.Width(70f));
-            }
-            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
-            {
-                SubmitCmd("currency 1011 " + str_cmd2);
-            }
-
-            {
-                //GUILayout.Label  文本显示
-                GUILayout.Label("宝珠金币经验钻石一键加减：", GUILayout.Width(150f));
-                //文本字段
-                str_cmd3 = GUILayout.TextField(str_cmd3, GUILayout.Width(70f));
-            }
-            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
-            {
-                SubmitCmd("currency 1000 " + str_cmd3);
-                SubmitCmd("currency 1001 " + str_cmd3);
-                SubmitCmd("currency 1004 " + str_cmd3);
-                SubmitCmd("currency 1006 " + str_cmd3);
-            }
-
-            GUILayout.Space(10f);
-            GUILayout.Space(10f);
 
         }
 
-        /// <summary>
-        /// 批量执行GM指令
-        /// </summary>
-        /// <param name="invincible">作弊指令列表</param>
-        /// <returns></returns>
         public IEnumerator ExecuteCmds(ArrayList list_cmds)
         {
             foreach (string cmd in list_cmds)
@@ -194,45 +450,578 @@ namespace Assets.Editor.QATools
             }
         }
 
-        /// <summary>
-        /// 发送作弊指令给服务器
-        /// </summary>
-        /// <param name="cmd">作弊指令</param>
-        void SubmitCmd(string cmd)
+        public void CompeleteInput()
         {
-            if (Command_FinishGuide(cmd, "guide")) return;
-            if (Command_GetItem(cmd, "item")) return;
-            if (Command_blinkLevel(cmd, "blink")) return;
-            if (Command_Currency(cmd, "currency")) return;
+            if (commandInputFiled.text == "") return;
+
+            logText.text += $"\n>>{commandInputFiled.text}";
+            SubmitCmd(commandInputFiled.text);
+
+            commandInputFiled.text = "";
+        }
+
+        void SubmitCmd(string command)
+        {
+            //添加指令进历史列表
+            //historyCommonList.Add(commandInputFiled.text);
+            //historyCommonIndex = historyCommonList.Count;
+
+            if (Command_Help(command, "help")) return;
+            if (Command_GetItem(command, "item")) return;
+            //if (Command_BookExp(command, "bExp")) return;
+            if (Command_FinishGuide(command, "guide")) return;
+            if (Command_RemoveGuide(command, "guideID")) return;
+            if (Command_RemoveGuideButton(command, "guideButton")) return;
+            if (Command_AddGuideButton(command, "addGuideButton")) return;
+            if (Command_RemoveAllGuide(command, "guideRemoveAll")) return;
+            if (Command_AddMainTask(command, "addMainTask")) return;
+            if (Command_MainTaskFull(command, "addAllMainTask")) return;
+            if (Command_MainTaskClear(command, "clearMainTask")) return;
+            if (Command_DailyTaskClear(command, "clearDailyTask")) return;
+            //if (Command_ChangeGold(command, "gold")) return;
+            //if (Command_ChangeSacredCrystal(command, "sC")) return;
+            //if (Command_ChangeMagicStone(command, "mS")) return;
+            //if (Command_ChangeExp(command, "exp")) return;
+            //if (Command_ChangeInnerFire(command, "innerFire")) return;
+            //if (Command_ChangeReExp(command, "reExp", false)) return;
+            //if (Command_ChangeReExp(command, "reExpPool", true)) return;
+            if (Command_GetHero(command, "hero")) return;
+            if (Command_ChangeChapterProgress(command, "progress")) return;
+            if (Command_Notification_Bubble(command, "bubble")) return;
+            if (Command_Notification_MsgBox(command, "msgBox")) return;
+            if (Command_PassLevel(command, "pass")) return;
+            if (Command_FailLevel(command, "fail")) return;
+            if (Command_blinkLevel(command, "blink")) return;
+            if (Command_BlinkStory(command, "blinkstory")) return;
+            if (Command_BossHp(command, "bossHp")) return;
+            if (Command_RemoveLobbyGuide(command, "removeGuide")) return;
+            if (Command_DeleteData(command, "deleteData")) return;
+            if (Command_TestRandomEquip(command, "rndItem")) return;
+            if (Command_TestDropEquip(command, "dropItem")) return;
+            if (Commoand_GiftCode(command, "gift")) return;
+            if (Commoand_ClearCD(command, "clearCD")) return;
+            if (Commoand_ResetCD(command, "resetCD")) return;
+            if (Commoand_SendMail(command, "sendMail")) return;
+            if (Commoand_ShutdownServer(command, "shutdownServer")) return;
+            if (Commoand_ChatMsg(command, "chatMsg")) return;
+            if (Commoand_RandomQuality(command, "RandomQuality")) return;
+            if (Commoand_ResetQuality(command, "ResetQuality")) return;
+            if (Commoand_AddAffix(command, "AddAffix")) return;
+            if (Commoand_BlackSheepWall(command, "BlackSheepWall")) return;
+            if (Command_UnlockTeamSeat(command, "seat")) return;
+            if (Command_BuildingExp(command, "buildExp")) return;
+            if (Command_Currency(command, "currency")) return;
+            if (Command_StopBattleAcc(command, "battleAcc")) return;
+            if (Command_ExpEarning(command, "expEarning")) return;
+            if (Command_ClearNpcTask(command, "clearNpcTask")) return;
+            if (Command_CloseOpening(command, "opening")) return;
+            PrintLog("Invalid Command", LogType.Error);
+            info = "123123123";
+
+            //这条指令错误，移除它
+            //historyCommonList.RemoveAt(historyCommonList.Count - 1);
 
 
 
         }
-
-
-        bool Command_FinishGuide(string cmd, string key)
+        bool Command_BuildingExp(string command, string key)
         {
-            if (cmd.IndexOf(key) == 0)
+            if (command.IndexOf(key + " ") == 0)
             {
-                try
+                var para = command.Split(' ');
+                DataManager.UpgradeBuildingModel.GMAddBuildExp(para[1].ToInt(), para[2].ToLong());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //添加货币类型
+        bool Command_Currency(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var para = command.Split(' ');
+                DataManager.Instance.GMAddCurrency(para[1].ToInt(), para[2].ToLong());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //OP 跳过
+        public bool Command_CloseOpening(string command, string key)
+        {
+            //if (command.IndexOf(key + " ") == 0) {
+            //    var v = UIManager.Instance.GetUIByUIType<UI_OpeningAnim_View>(UIModel.UI_OpeningPanel);
+            //    if (v != null)
+            //    {
+            //        v.BlinkOpening();
+            //    }
+            //    return true;
+            //}
+            //else
+            //{
+            return false;
+            //}
+        }
+
+
+        //解锁阵容
+        bool Command_UnlockTeamSeat(string command, string key)
+        {
+            if (command == key)
+            {
+                DataManager.FormationModel.SetTeamUnlockData(1000);
+                return true;
+            }
+            return false;
+        }
+
+        //
+        bool Commoand_BlackSheepWall(string command, string key)
+        {
+            if (command == key)
+            {
+                BasicPlotData respon = null;
+                RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                    () => { respon = RpcServer.Instance.Client.GMPassAllBasicPlotData(DataManager.Instance.userId); },
+                    () =>
+                    {
+                        if (respon != null)
+                        {
+                            DataManager.Instance.basicPlotData = respon;
+                            DataManager.Instance.BasicPlotDataUpdate();
+                            UIGlobal.instance.SendBubble("Now you've got the world.");
+                        }
+                        else
+                        {
+                            UIGlobal.instance.SendBubble("服务器返回出错");
+                        }
+                    });
+                return true;
+            }
+            return false;
+        }
+
+        //聊天测试领命
+        private bool Commoand_ChatMsg(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
                 {
-                    DataManager.Instance.finishGuide = true;
-                    EventManager.Instance.RaiseEvent("结束新手引导流程");
-                    //PrintLog($"{DataManager.Instance.userName} 试图跳过当前新手流程!", LogType.Log);
+                    Debug.Log("发送聊天内容 " + paras[1]);
+                    ChatManager.Instance.SendChatMsg(paras[1]);
+                    return true;
                 }
-                catch
+            }
+            return false;
+        }
+
+        //开启全部关卡
+
+        //装备测试
+        //随机装备品质
+        bool Commoand_RandomQuality(string command, string key)
+        {
+            //if (command.IndexOf(key + " ") == 0)
+            //{
+            //    var paras = command.Split(' ');
+
+            //    Equipment equipment = null;
+
+            //    if (paras.Length == 2)
+            //    {
+            //        RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+            //            () => { equipment = RpcServer.Instance.Client.Makeover_RandomQuality(DataManager.Instance.userId, int.Parse(paras[1])); },
+            //            () => {
+            //                Debug.Log(equipment);
+            //                Debug.Log(equipment.AffixGroup.Affixs_innate.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_basic.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_prefix.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_suffix.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_custom.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_skill.Count);
+            //            });
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+
+        //重置装备品质
+        bool Commoand_ResetQuality(string command, string key)
+        {
+            //if (command.IndexOf(key + " ") == 0)
+            //{
+            //    var paras = command.Split(' ');
+
+            //    Equipment equipment = null;
+
+            //    if (paras.Length == 2)
+            //    {
+            //        RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+            //            () => { equipment = RpcServer.Instance.Client.Makeover_ResetQualit(DataManager.Instance.userId, int.Parse(paras[1])); },
+            //            () => {
+            //                Debug.Log(equipment);
+            //                Debug.Log(equipment.AffixGroup.Affixs_innate.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_basic.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_prefix.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_suffix.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_custom.Count);
+            //                Debug.Log(equipment.AffixGroup.Affixs_skill.Count);
+            //            });
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        //增加词缀
+        bool Commoand_AddAffix(string command, string key)
+        {
+            //if (command.IndexOf(key + " ") == 0)
+            //{
+            //    var paras = command.Split(' ');
+
+            //    thrift.sts.EquipAffixGroupServer equipAffix = null;
+
+            //    if (paras.Length == 2)
+            //    {
+            //        RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+            //            () => { equipAffix = RpcServer.Instance.Client.Makeover_AddAffix(DataManager.Instance.userId, int.Parse(paras[1])); },
+            //            () => {
+            //                Debug.Log(equipAffix.Affixs_innate.Count);
+            //                Debug.Log(equipAffix.Affixs_basic.Count);
+            //                Debug.Log(equipAffix.Affixs_prefix.Count);
+            //                Debug.Log(equipAffix.Affixs_suffix.Count);
+            //                Debug.Log(equipAffix.Affixs_custom.Count);
+            //                Debug.Log(equipAffix.Affixs_skill.Count);
+            //            });
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        //删除词缀
+        bool Commoand_DeleteAffix(string command, string key)
+        {
+            //if (command.IndexOf(key + " ") == 0)
+            //{
+            //    var paras = command.Split(' ');
+
+            //    thrift.sts.EquipAffixGroupServer equipAffix = null;
+
+            //    if (paras.Length == 2)
+            //    {
+            //        RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+            //            () => { equipAffix = RpcServer.Instance.Client.Makeover_DeleteAffix(DataManager.Instance.userId, int.Parse(paras[1])); },
+            //            () => {
+            //                Debug.Log(equipAffix.Affixs_innate.Count);
+            //                Debug.Log(equipAffix.Affixs_basic.Count);
+            //                Debug.Log(equipAffix.Affixs_prefix.Count);
+            //                Debug.Log(equipAffix.Affixs_suffix.Count);
+            //                Debug.Log(equipAffix.Affixs_custom.Count);
+            //                Debug.Log(equipAffix.Affixs_skill.Count);
+            //            });
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+
+
+
+        private bool Commoand_ClearCD(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
                 {
-                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    CD cd = null;
+                    RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                     () => { cd = RpcServer.Instance.Client.clearCD(DataManager.Instance.userId, int.Parse(paras[1])); },
+                     () =>
+                     {
+                         if (cd != null)
+                             PrintLog($"cd 清零成功 当前计数 [{cd.CurrValue}]", LogType.Log);
+                         else
+                             PrintLog("cd 不存在!", LogType.Log);
+
+                     },
+                     "clearCD");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool Commoand_ResetCD(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    CD cd = null;
+                    RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                     () => { cd = RpcServer.Instance.Client.resetCD(DataManager.Instance.userId, int.Parse(paras[1])); },
+                     () =>
+                     {
+                         if (cd != null)
+                             PrintLog($"cd 恢复成功 当前计数 [{cd.CurrValue}]", LogType.Log);
+                         else
+                             PrintLog("cd 不存在!", LogType.Log);
+
+                     },
+                     "resetCD");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool Commoand_ShutdownServer(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                PrintLog("关闭服务器", LogType.Log);
+                if (paras.Length > 0)
+                {
+                    bool ret = false;
+                    RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                     () => { ret = RpcServer.Instance.Client.OnCloseServer(); },
+                     () =>
+                     {
+
+                     },
+                     "OnCloseServer");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool Commoand_SendMail(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 4)
+                {
+                    bool ret = false;
+                    RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                     () => { ret = RpcServer.Instance.Client.TestSendMail(DataManager.Instance.userId, DataManager.Instance.userId, paras[1], paras[2], paras[3]); },
+                     () =>
+                     {
+                         if (ret)
+                             PrintLog("发送邮件成功", LogType.Log);
+                         else
+                             PrintLog("发送邮件失败!", LogType.Log);
+
+                     },
+                     "TestSendMail");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        private bool Commoand_GiftCode(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    DataManager.Instance.GetGiftCode(paras[1]);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //测试获取随机装备体系
+        private bool Command_TestRandomEquip(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 5)
+                {
+                    //try
+                    //{
+                    List<RandomEquipmentVba.EquipmentRandom> equipRndList = RandomEquipmentVba.生成真实装备(int.Parse(paras[1]), int.Parse(paras[2]), int.Parse(paras[3]), int.Parse(paras[4]));
+                    for (int i = 0; i < equipRndList.Count; i++)
+                    {
+                        var equipment = TplManager.Instance.GetNewRandEquipmentById(equipRndList[i]);
+                        DataManager.Instance.AcquireItem(equipment);
+                        PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+                    }
+
+                    //}
+                    ////如果转换失败就报错
+                    //catch
+                    //{
+                    //    PrintLog($"Invalid parameters : {key} -> rndItem <_dropId> <_monsterLv> <_drop> <_稀有度>", LogType.Error);
+                    //}
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} -> rndItem <_dropId> <_monsterLv> <_drop> <_稀有度>", LogType.Error);
+                }
+
+                SaveDataManager.Instance.Save();
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool Command_TestDropEquip(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length >= 2)
+                {
+                    List<DropItemData> datas = new List<DropItemData>();
+                    DropItemData data = new DropItemData();
+                    data.TplBattleId = 10100;
+                    var tplbattle = TplManager.Instance.GetBattleByIDTest(data.TplBattleId);
+                    data.Level = paras.Length > 2 ? int.Parse(paras[2]) : tplbattle.qLv;
+                    data.Rarity_unit = paras.Length > 3 ? int.Parse(paras[3]) : 0;
+                    data.Rarity_map = paras.Length > 3 ? 0 : tplbattle.rarity_map;
+                    data.Quantity_unit = paras.Length > 4 ? int.Parse(paras[4]) : 0;
+                    data.Quantity_map = paras.Length > 4 ? 0 : tplbattle.quantity_map;
+                    Debug.Log(tplbattle.quantity_map);
+                    datas.Add(data);
+
+                    thrift.sts.RandomDropItemRespon respon = null;
+                    RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                        () =>
+                        {
+                            respon = RpcServer.Instance.Client.GetRandomDropItem(DataManager.Instance.userId, datas, int.Parse(paras[1]));
+                        },
+                        () =>
+                        {
+                            if (respon.Succ)
+                            {
+                                DataManager.Instance.RpcGetEquipmentList();
+                                if (BattleGameManager.instance != null)
+                                    //{
+                                    //    foreach (var item in respon.DropItem)
+                                    //    {
+                                    //        BattleGameManager.instance.gameRule.CoinCreater.PlayDropItem(new Vector3(0 , 0, 10), Vector3.zero, item);
+                                    //    }
+                                    //}
+                                    UIGlobal.instance.SendBubble("随机掉落装备成功");
+                            }
+                            else
+                                UIGlobal.instance.SendBubble("随机掉落装备失败");
+                        });
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} -> dropItem <_dropGroupId> <_tplBattleId>", LogType.Error);
                 }
                 return true;
             }
             return false;
         }
-        bool Command_GetItem(string cmd, string key)
+
+
+        bool Command_Help(string command, string key)
         {
-            if (cmd.IndexOf(key + " ") == 0)
+            if (command.IndexOf(key) == 0)
             {
-                var paras = cmd.Split(' ');
+                //暂时移除的GM命令
+                //随机获得物品: rItem <_type> [_amount(Material only)]
+                //英雄升星: upHeroQuality < _id >
+                //刷新商品: refresh
+                //修改技能点: sp < _value >
+                //修改水晶: crystal < _value >
+                string info = @"
+---控制台命令---
+[通用]
+获得物品: item <_type> <_id> [_amount(Material only)]
+修改书经验: bExp < _value >
+修改钻石（废弃）: sC <_value>
+修改金币（废弃）: gold < _value >
+修改英雄经验（废弃）: reExp <_value>
+英雄经验池添加（废弃）: reExpPool <_value>
+修改英雄宝珠: innerFire <_value>
+修改经验（废弃）: exp <_value>
+获得英雄: hero <_id>
+探索进度: progress <_chapterID> <_value>
+气泡通知: bubble <_content>
+弹窗通知: msgBox
+清空背包（废弃）: clearBag
+删除存档: deleteData
+随机掉落物品: dropItem <_dropGroupId> <_物品等级(可选)> <稀有加成(可选)> <数量加成(可选)>
+随机装备体系(废弃): rndItem <_dropId> <_monsterLv> <_drop> <_稀有度>
+使用礼包码 gift <礼包码>
+清除cd计数:clearCD <cdID>
+重置cd计数:resetCD <cdID>
+测试发邮件:sendMail <正文> <标题> <奖励字符串>
+测试聊天:chatMsg <正文>
+测试回写数据库,关闭服务器:shutdownServer [慎用!]
+[关卡中]
+过关: pass
+失败: fail
+主线章节全部解锁: BlackSheepWall
+进入指定关卡(基础探险专用):blink <_chapter> <_level> (<type(0=小关，1=boos)>)
+BOSS血量: bossHp <_cur> <_max>
+增加主线任务：addMainTask <_maintaskid> <_value>
+增加所有主线任务：addAllMainTask
+清除主线任务： clearMainTask
+移除主城界面的引导提示：removeGuide
+清除日常任务：clearDailyTask
+[新手引导]
+跳过新手引导: guide <_anyKey>
+重置新手引导: guideRemoveAll <_anyKey>
+移除单个引导任务: guideID <_headID>
+移除引导解锁按钮: guideButton <_ButtonName (Enum)>
+添加引导解锁按钮: addGuideButton <_ButtonName (Enum)>
+
+获取货币: currency <id> <num>
+获取建筑经验: buildExp <id> <num>
+战斗加速控制: battleAcc <statue> (statue: 0 关闭, 1打开)
+申请添加阅历收益等级: expEarning
+清空当前章节支线任务：clearNpcTask
+
+---如出现无法输入的情况，请点击输出信息区域---
+
+
+"
+    //+ $"userID: {DataManager.Instance.userId}"
+    ;
+                PrintLog(info, LogType.Log);
+                return true;
+            }
+            return false;
+        }
+        bool Command_GetItem(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
 
                 if (paras.Length >= 3)
                 {
@@ -253,11 +1042,11 @@ namespace Assets.Editor.QATools
                                 if (equipment != null)
                                 {
                                     DataManager.Instance.AcquireItem(equipment);
-                                    //PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+                                    PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
                                 }
                                 else
                                 {
-                                    //PrintLog($"Can't find equipment by id <{id}>", LogType.Error);
+                                    PrintLog($"Can't find equipment by id <{id}>", LogType.Error);
                                 }
                                 break;
                             case 2:
@@ -270,12 +1059,12 @@ namespace Assets.Editor.QATools
                                 {
                                     material = material.clone;
                                     DataManager.Instance.AcquireItem(material, amount);
-                                    //PrintLog($"Acquired material [{material.name} *{amount}]", LogType.Log);
+                                    PrintLog($"Acquired material [{material.name} *{amount}]", LogType.Log);
                                     //Debug.LogError("这里正在怎加粉末------------------------------------------");
                                 }
                                 else
                                 {
-                                    //PrintLog($"Can't find material by id <{id}>", LogType.Error);
+                                    PrintLog($"Can't find material by id <{id}>", LogType.Error);
                                 }
                                 break;
                             case 3:
@@ -284,31 +1073,952 @@ namespace Assets.Editor.QATools
                                 {
                                     consumable = consumable.clone;
                                     DataManager.Instance.AcquireItem(consumable, amount);
-                                    //PrintLog($"Acquired material [{consumable.name} *{amount}]", LogType.Log);
+                                    PrintLog($"Acquired material [{consumable.name} *{amount}]", LogType.Log);
                                 }
                                 else
                                 {
-                                    //PrintLog($"Can't find consumable by id <{id}>", LogType.Error);
+                                    PrintLog($"Can't find consumable by id <{id}>", LogType.Error);
                                 }
                                 break;
                             default:
-                                //PrintLog($"Can't find type <{type}>", LogType.Error);
+                                PrintLog($"Can't find type <{type}>", LogType.Error);
                                 break;
                         }
                     }
                     //如果转换失败就报错
                     catch
                     {
-                        //PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material only)]", LogType.Error);
+                        PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material only)]", LogType.Error);
                     }
                 }
                 else
                 {
-                    //PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material use only)]", LogType.Error);
+                    PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material use only)]", LogType.Error);
                 }
                 return true;
             }
 
+            return false;
+        }
+
+        //失效GM命令 随机发放物品
+        //bool Command_GetRandomItem(string command, string key)
+        //{
+        //    if (command.IndexOf(key + " ") == 0)
+        //    {
+        //        var paras = command.Split(' ');
+
+        //        if (paras.Length >= 2)
+        //        {
+        //            try
+        //            {
+        //                int type = int.Parse(paras[1]);
+        //                int amount = 1;
+        //                //选参
+        //                if (paras.Length > 2)
+        //                    amount = int.Parse(paras[2]);
+        //                if (amount <= 0) amount = 1;
+
+        //                switch (type)
+        //                {
+        //                    case 1:
+        //                        var equipment = TplManager.Instance.GetAnEquipmentRandomly();
+
+        //                        DataManager.Instance.AcquireItem(equipment);
+
+        //                        PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+        //                        break;
+        //                    case 2:
+        //                        var material = TplManager.Instance.GetAnMaterialRandomly();
+        //                        material = material.clone;
+        //                        DataManager.Instance.AcquireItem(material, amount);
+
+        //                        PrintLog($"Acquired material [{material.name} *{amount}]", LogType.Log);
+        //                        break;
+        //                    case 3:
+        //                        var consumable = TplManager.Instance.GetAnConsumableRandomly();
+        //                        consumable = consumable.clone;
+        //                        DataManager.Instance.AcquireItem(consumable, amount);
+
+        //                        PrintLog($"Acquired material [{consumable.name} *{amount}]", LogType.Log);
+        //                        break;
+        //                    //case 3:
+        //                    //    var sealEquipment = TplManager.Instance.GetAnSealEquipmentRandomly();
+
+        //                    //    DataManager.Instance.AcquireItem(sealEquipment);
+
+        //                    //    PrintLog($"Acquired sealEquipment [{sealEquipment.name}]", LogType.Log);
+        //                    //    break;
+        //                    default:
+        //                        PrintLog($"Can't find type <{type}>", LogType.Error);
+        //                        break;
+        //                }
+        //            }
+        //            //如果转换失败就报错
+        //            catch
+        //            {
+        //                PrintLog($"Invalid parameters : {key} <_type> [_amount(Material only)]", LogType.Error);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            PrintLog($"Invalid parameters : {key} <_type> [_amount(Material use only)]", LogType.Error);
+        //        }
+        //        return true;
+        //    }
+
+        //    return false;
+        //}
+
+        bool Command_BookExp(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        int amount = int.Parse(paras[1]);
+                        int preAmount = DataManager.Instance.bookExp;
+                        DataManager.Instance.ChangeBookExp(amount);
+                        //EventManager.Instance.RaiseEvent("开始播放book升级效果");
+                        PrintLog($"bExp {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.bookExp})", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        bool Command_FinishGuide(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                try
+                {
+                    DataManager.Instance.finishGuide = true;
+                    EventManager.Instance.RaiseEvent("结束新手引导流程");
+                    PrintLog($"{DataManager.Instance.userName} 试图跳过当前新手流程!", LogType.Log);
+                }
+                catch
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        bool Command_RemoveGuide(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        DataManager.GuideModel.RemoveGuideData(1, int.Parse(paras[1]));
+                        string currentOption = "移除引导HeadID: ";
+                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                    return true;
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+            }
+            return false;
+        }
+
+        bool Command_RemoveAllGuide(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        DataManager.GuideModel.RemoveAllData();
+                        DataManager.Instance.finishGuide = false;
+                        string currentOption = "重置引导: ";
+                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                    return true;
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+            }
+            return false;
+        }
+
+        bool Command_RemoveGuideButton(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        DataManager.GuideModel.RemoveGuideData(2, int.Parse(paras[1]));
+                        string currentOption = "移除引导解锁button: ";
+                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                    return true;
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+            }
+            return false;
+        }
+
+        bool Command_AddGuideButton(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        DataManager.GuideModel.SaveButtonName((Sts.Model.ButtonName)int.Parse(paras[1]));
+                        //EventManager.Instance.RaiseEvent("ShowButton", (Sts.Model.ButtonName)int.Parse(paras[1]));
+                        PrintLog($"{(Sts.Model.ButtonName)int.Parse(paras[1])} 添加完毕", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                    return true;
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+            }
+            return false;
+        }
+
+        bool Command_RemoveLobbyGuide(string command, string key)
+        {
+            if (command.IndexOf(key) == 0)
+            {
+                try
+                {
+                    EventManager.Instance.RaiseEvent("移除noTips");
+                    string currentOption = "移除提示";
+                    PrintLog($"{DataManager.Instance.userName} {currentOption}", LogType.Log);
+                }
+                catch
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+            }
+            return false;
+        }
+
+        bool Command_AddMainTask(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 3)
+                {
+                    try
+                    {
+                        EventManager.Instance.RaiseEvent("增加主线任务进度", new ArrayList() { (Type_MainTaskID)int.Parse(paras[1]), int.Parse(paras[2]) });
+                        string currentOption = "增加主线任务";
+                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+
+            }
+            return false;
+        }
+
+        bool Command_MainTaskFull(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        List<thrift.sts.MainTask> respon = null;
+                        RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                       () =>
+                       {
+                           respon = RpcServer.Instance.Client.GetMainTaskFull(DataManager.Instance.userId);
+                       },
+
+                      () =>
+                      {
+                          DataManager.Instance.mainTaskIDList = respon;
+                          for (int i = 0; i < DataManager.Instance.mainTaskIDList.Count; i++)
+                              DataManager.Instance.mainTaskIDList[i].State = "Get";
+                      });
+                        string currentOption = "增加所有主线任务";
+                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+
+            }
+            return false;
+        }
+
+        bool Command_MainTaskClear(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        List<thrift.sts.MainTask> respon = null;
+                        RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                       () =>
+                       {
+                           respon = RpcServer.Instance.Client.GetMainTaskClear(DataManager.Instance.userId);
+                       },
+
+                      () =>
+                      {
+                          DataManager.Instance.mainTaskIDList = respon;
+                      });
+                        string currentOption = "清空主线任务";
+                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+
+            }
+            return false;
+        }
+
+        bool Command_DailyTaskClear(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                       () =>
+                       {
+                           RpcServer.Instance.Client.ClearDailyTask(DataManager.Instance.userId);
+                       },
+
+                      () =>
+                      {
+                      });
+                        string currentOption = "清空日常任务";
+                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+
+            }
+            return false;
+        }
+
+        bool Command_ClearNpcTask(string command, string key)
+        {
+            if (command == key)
+            {
+                bool respon = false;
+                RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+               () =>
+               {
+                   respon = RpcServer.Instance.Story_client.ClearNpcTask(DataManager.Instance.userId, 0);
+               },
+
+              () =>
+              {
+                  if (respon)
+                  {
+                      DataManager.TaskStoryData.GetTaskListByRPC();
+                      PrintLog("清空了支线任务", LogType.Log);
+                  }
+                  else
+                      PrintLog("清空失败", LogType.Error);
+              });
+                return true;
+            }
+            else
+                return false;
+        }
+
+
+        bool Command_ChangeGold(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        long amount = long.Parse(paras[1]);
+                        double preAmount = DataManager.Instance.gold;
+                        DataManager.Instance.ChangeGold(amount);
+                        PrintLog($"Gold {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.gold})", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        //bool Command_ChangeCrystal(string command,string key)
+        //{
+        //    if (command.IndexOf(key + " ") == 0)
+        //    {
+        //        var paras = command.Split(' ');
+
+        //        if (paras.Length == 2)
+        //        {
+        //            try
+        //            {
+        //                long amount = long.Parse(paras[1]);
+        //                long preAmount = DataManager.Instance.crystal;
+        //                //todo gh 水晶扣费服务端化
+        //                DataManager.Instance.ChangeCrystal(amount);
+        //                PrintLog($"Crystal {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.crystal})", LogType.Log);
+        //            }
+        //            catch
+        //            {
+        //                PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+        //        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+
+
+
+
+        //GM命令增加神力结晶
+        bool Command_ChangeSacredCrystal(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        long amount = long.Parse(paras[1]);
+
+                        // 服务端化 增加神力结晶
+                        DataManager.Instance.RpcChangeSacredCrystal(amount);
+                        PrintLog("The fucking GM <color=#FFFFFF>piao</color> me again! :(", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog("OhNoMyGM, I haven't a drop left...", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Holle~MyGM, What do you saying just now?", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        //GM命令增加魔法石
+        bool Command_ChangeMagicStone(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        long amount = long.Parse(paras[1]);
+
+                        DataManager.Instance.ChangeMagicStone(amount);
+                        PrintLog("The fucking GM <color=#FFFFFF>piao</color> me again! :(", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog("OhNoMyGM, I haven't a drop left...", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Holle~MyGM, What do you saying just now?", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        bool Command_ChangeExp(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        float amount = float.Parse(paras[1]);
+                        float preAmount = DataManager.Instance.exp;
+                        DataManager.Instance.ChangeExp(amount);
+                        PrintLog($"Exp {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.exp})/{DataManager.Instance.expMax}", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        bool Command_ChangeInnerFire(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        float amount = float.Parse(paras[1]);
+                        double preAmount = DataManager.Instance.innerFire;
+                        DataManager.Instance.RpcUpdateInnerFire(amount);
+                        PrintLog($"innerFire {(amount > 0 ? "+" : "") + amount }", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        bool Command_ChangeReExp(string command, string key, bool _isPool)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        long amount = long.Parse(paras[1]);
+                        if (_isPool)
+                        {
+                            FunctionGlobal.instance.AddPoolReExp(amount);
+                            FunctionGlobal.instance.ChangeReExp();
+                        }
+                        else
+                        {
+                            DataManager.Instance.RpcUpdateReExp(amount);
+                        }
+
+                        PrintLog("OMG! You need Souls? Are you 'Devil'?", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        //bool Command_ChangeSkillPoint(string command,string key)
+        //{
+        //    if (command.IndexOf(key + " ") == 0)
+        //    {
+        //        var paras = command.Split(' ');
+
+        //        if (paras.Length == 2)
+        //        {
+        //            try
+        //            {
+        //                int amount = int.Parse(paras[1]);
+        //                int preAmount = DataManager.Instance.skillPoint;
+        //                DataManager.Instance.ChangeSkillPoint(amount);
+        //                EventManager.Instance.RaiseEvent("更新英雄信息界面");
+
+        //                PrintLog($"SkillPoint {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.skillPoint})", LogType.Log);
+        //            }
+        //            catch
+        //            {
+        //                PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+        //        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
+        bool Command_GetHero(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        int id = int.Parse(paras[1]);
+                        bool isAcquired = false;
+                        string heroName = "";
+                        //判断是否拥有该英雄
+                        //foreach (var hero in DataManager.Instance.heroList)
+                        //{
+                        //    //已经拥有该英雄
+                        //    if (hero.id == id)
+                        //    {
+                        //        heroName = hero.tpl.title;
+                        //        isAcquired = true;
+                        //        break;
+                        //    }
+                        //}
+
+                        if (!isAcquired)
+                        {
+                            var hero = TplManager.Instance.GetHeroByID(id);
+                            if (hero != null)
+                            {
+                                //新增存档 
+                                Debug.LogError("控制台新增英雄 " + id);
+
+                                //int ud = DataManager.Instance.heroUD;
+                                //DataManager.Instance.heroDataList.Add(new HeroData(id, ud));
+
+                                //DataManager.Instance.heroInfoModel.LoadData();
+
+                                //SaveDataManager.Instance.Save();
+
+                                //EventManager.Instance.RaiseEvent("更新英雄信息界面");
+
+                                //PrintLog($"Get hero {hero.title}", LogType.Log);
+
+                                thrift.sts.HeroData respon = null;
+                                //等待网络通信协程
+                                RpcServer.Instance.netServerControll.CallRpcRemoteThread(
+                                    () => { respon = RpcServer.Instance.Hero_client.AddHero(DataManager.Instance.userId, id); },
+                                    () =>
+                                    {
+                                        var heroDataList = new List<HeroData>() { respon };
+                                        DataManager.Instance.CallBack_AddNewHeroData(heroDataList);
+                                        DataManager.Instance.HeroInfoListLoadData();
+                                        SaveDataManager.Instance.Save();
+                                        EventManager.Instance.RaiseEvent("更新英雄信息界面");
+
+                                        PrintLog($"Get hero {hero.title}", LogType.Log);
+                                        info = "Get hero {hero.title}";
+                                    });
+                            }
+                            else
+                            {
+                                PrintLog($"Can't find hero by id <{id}>", LogType.Error);
+                            }
+                        }
+                        else
+                        {
+                            PrintLog($"Have been acquired {heroName}", LogType.Error);
+                        }
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_id>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_id>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        bool Command_UpgradeHeroQuality(string command, string key)
+        {
+            PrintLog($"过期命令", LogType.Log);
+            return false;
+        }
+
+        bool Command_ChangeChapterProgress(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        //int chapterID = int.Parse(paras[1]);
+                        //float amount = float.Parse(paras[2]);
+
+                        //bool isExsit = false;
+                        //foreach (var chapter in DataManager.Instance.exploreModel.chapterList)
+                        //{
+                        //    if (chapter.tpl.chapterID == chapterID && chapter.data != null)
+                        //    {
+                        //        isExsit = true;
+                        //        float preAmount = chapter.data.curProgress;
+                        //        DataManager.Instance.ChangeChapterProgress(chapterID,amount);
+                        //        SaveDataManager.Instance.Save();
+                        //        EventManager.Instance.RaiseEvent("更新关卡信息");
+
+                        //        PrintLog($"Progress of {chapter.tpl.chapterName} {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{chapter.data.curProgress})/{DataManager.Instance.exploreModel.EventIDToProgress(chapter.tpl.eventList.Count)}", LogType.Log);
+                        //    }
+                        //}
+
+
+                        //if (!isExsit)
+                        //    PrintLog($"Can't find chapter savefile by id <{chapterID}>", LogType.Error);
+
+                        int amount = int.Parse(paras[1]);
+
+                        UI_BattleCommonController ctrl = UI_BattleCommonController.Instance;
+                        if (ctrl != null)
+                        {
+                            if (amount < 0) amount = 0;
+                            DataManager.Instance.curBasicPlotProgress = amount;
+                            ctrl.view.更新探索度进度条();
+                        }
+
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_chapterID> <_value>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_chapterID> <_value>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        bool Command_Notification_Bubble(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length >= 2)
+                {
+                    string content = paras[1];
+                    for (int i = 2; i < paras.Length; i++)
+                        content += " " + paras[i];
+                    UIGlobal.instance.SendBubble(content);
+
+                    PrintLog($"Bubble Sent {content}", LogType.Log);
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_content>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        bool Command_Notification_MsgBox(string command, string key)
+        {
+            if (command.IndexOf(key) == 0)
+            {
+
+                EventManager.Instance.RaiseEvent("OpenMsgBox", new ArrayList{"立即前往贸易界面" ,
+                                                                   new string[] { "贸易","取消" },
+                                                                   new string[] { "打开贸易", "" }});
+                PrintLog($"Msgbox Test", LogType.Log);
+                return true;
+            }
+            return false;
+        }
+
+        //失效GM命令 刷新商品
+        //bool Command_RefreshAllCargos(string command, string key)
+        //{
+        //    if (command.IndexOf(key) == 0)
+        //    {
+        //        foreach (var item in DataManager.Instance.cargoDataList)
+        //        {
+        //            item.isRefresh = false;
+        //        }
+        //        //DataManager.Instance.cargoDataList.Clear();
+        //        PrintLog("The troubles of the RICH~", LogType.Log);
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+        bool Command_ClearInventory(string command, string key)
+        {
+            if (command.IndexOf(key) == 0)
+            {
+                //DataManager.Instance.inventoryModel.equipmentList.Clear();
+                //DataManager.Instance.inventoryModel.equipmentList_Equipped.Clear();
+                //DataManager.Instance.inventoryModel.materialList.Clear();
+                //DataManager.Instance.inventoryModel.consumableList.Clear();
+
+                SaveDataManager.Instance.Save();
+
+                EventManager.Instance.RaiseEvent("更新英雄信息界面");
+                EventManager.Instance.RaiseEvent("更新背包界面");
+
+                PrintLog($"Inventory cleared", LogType.Log);
+                return true;
+            }
+            return false;
+        }
+        bool Command_DeleteData(string command, string key)
+        {
+            if (command.IndexOf(key) == 0)
+            {
+                SaveDataManager.Instance.Delete();
+                EventManager.Instance.RaiseEvent("更新英雄信息界面");
+                EventManager.Instance.RaiseEvent("更新背包界面");
+                PrintLog($"Save file has deleted", LogType.Log);
+                return true;
+            }
+            return false;
+        }
+        //战斗
+        bool Command_PassLevel(string command, string key)
+        {
+
+            if (command.IndexOf(key) == 0)
+            {
+                if (UI_BattleCommonController.Instance != null)
+                {
+                    EventManager.Instance.RaiseEvent("PassLevel");
+                    PrintLog($"Level has passed", LogType.Log);
+                }
+                else
+                {
+                    PrintLog($"Not in the battle scene", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        bool Command_FailLevel(string command, string key)
+        {
+            if (command.IndexOf(key) == 0)
+            {
+                if (UI_BattleCommonController.Instance != null)
+                {
+                    EventManager.Instance.RaiseEvent("FailLevel");
+                    PrintLog($"Level has failed", LogType.Log);
+                }
+                else
+                {
+                    PrintLog($"Not in the battle scene", LogType.Error);
+                }
+                return true;
+            }
             return false;
         }
         bool Command_blinkLevel(string command, string key)
@@ -333,100 +2043,202 @@ namespace Assets.Editor.QATools
                             type = 0;
                         }
                         EventManager.Instance.RaiseEvent("Blink", new ArrayList { chapter, level, type });
-                       // PrintLog($"They who live by the wand shall die by my blade!", LogType.Log);
+                        PrintLog($"They who live by the wand shall die by my blade!", LogType.Log);
                     }
                     catch
                     {
-                       // PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                        PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
                     }
                 }
                 else
                 {
-                    //PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                    PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
                 }
                 return true;
             }
             return false;
         }
 
-        //bool Command_BlinkStory(string cmd, string key)
+        bool Command_BlinkStory(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 2)
+                {
+                    try
+                    {
+                        float storykey = float.Parse(paras[1]);
+
+                        if (storykey == 1)
+                        {
+                            EventManager.Instance.RaiseEvent("强制回收剧情流程_编辑模式下");
+                            EventManager.Instance.RaiseEvent("UI摄像机层级恢复");
+                        }
+
+                        if (storykey == 2)
+                        {
+                            HeroTeamInfo info = DataManager.FormationModel.GetTeamInfoByType(FormationTypes.storyBattle);
+
+                            bool b = false;
+                            foreach (var item in info.teamHeros)
+                            {
+                                if (item != null)
+                                    if (item.udid != 0)
+                                    {
+                                        b = true;
+                                        break;
+                                    }
+                            }
+                            if (!b)
+                            {
+                                //保存当前英雄信息编队
+                                DataManager.FormationModel.RpcSaveTempTeamSeat(FormationTypes.storyBattle);
+
+                                //DataManager.Instance.SetStoryBattleHero();
+                            }
+                            VisibleInfoModel.Instance.ChangeVisiblePattern(UIVisiblePattern.chapter);
+
+                            DataManager.storyDataModel.SaveStory(1000);
+                            BattleGameManager.instance.isStoryOver = true;
+                            BattleGameManager.instance.uiLoading.SetVisible(true);
+                            Timeline_Ctrl.instance.EndTimeline(false);
+
+                            Browsethestory.instance.battleCtrl.BeginStoryBattle(1000);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError(ex);
+                    }
+                }
+
+
+
+                return true;
+            }
+            return false;
+        }
+
+        bool Command_BossHp(string command, string key)
+        {
+            if (command.IndexOf(key + " ") == 0)
+            {
+                var paras = command.Split(' ');
+
+                if (paras.Length == 3)
+                {
+                    try
+                    {
+                        float cur = float.Parse(paras[1]);
+                        float max = float.Parse(paras[2]);
+
+                        EventManager.Instance.RaiseEvent("更新BOSS血量", new ArrayList { cur, max });
+                        PrintLog($"Boss hp has updated", LogType.Log);
+                    }
+                    catch
+                    {
+                        PrintLog($"Invalid parameters : {key} <_cur> <_max>", LogType.Error);
+                    }
+                }
+                else
+                {
+                    PrintLog($"Invalid parameters : {key} <_cur> <_max>", LogType.Error);
+                }
+                return true;
+            }
+            return false;
+        }
+        //bool Command_AddLevelProgress(string command, string key)
         //{
-        //    if (cmd.IndexOf(key + " ") == 0)
+        //    if (command.IndexOf(key + " ") == 0)
         //    {
-        //        var paras = cmd.Split(' ');
+        //        var paras = command.Split(' ');
 
         //        if (paras.Length == 2)
         //        {
-        //            try
+        //            if (DataManager.Instance.curChapter != null)
         //            {
-        //                float storykey = float.Parse(paras[1]);
-
-        //                if (storykey == 1)
+        //                try
         //                {
-        //                    EventManager.Instance.RaiseEvent("强制回收剧情流程_编辑模式下");
-        //                    EventManager.Instance.RaiseEvent("UI摄像机层级恢复");
+        //                    float amount = float.Parse(paras[1]);
+        //                    EventManager.Instance.RaiseEvent("AddProgress", amount);
+        //                    PrintLog($"Progress added {amount}", LogType.Log);
         //                }
-
-        //                if (storykey == 2)
+        //                catch
         //                {
-        //                    HeroTeamInfo info = DataManager.Instance.GetHeroTeamInfoByType(FormationTypes.storyBattle);
-
-        //                    bool b = false;
-        //                    foreach (var item in info.teamHeros)
-        //                    {
-        //                        if (item != null)
-        //                            if (item.udid != 0)
-        //                            {
-        //                                b = true;
-        //                                break;
-        //                            }
-        //                    }
-        //                    if (!b)
-        //                    {
-        //                        DataManager.Instance.SetStoryBattleHero();
-        //                    }
-        //                    VisibleInfoModel.Instance.ChangeVisiblePattern(UIVisiblePattern.chapter);
-
-        //                    StartStory_ctrl.instance.SaveStory("Story_第一章_01");
-        //                    BattleGameManager.instance.isStoryOver = true;
-        //                    BattleGameManager.instance.uiLoading.SetVisible(true);
-        //                    Timeline_Ctrl.instance.EndTimeline(name, false);
-
-        //                    //Browsethestory.instance.battleCtrl.BeginStoryBattle(StoryDatamanager.instance.startStory_Model.GetStory());
+        //                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
         //                }
-
         //            }
-        //            catch
+        //            else
         //            {
-        //                Debug.LogError("跳剧情指令输入错误");
+        //                PrintLog($"Chapter chapter is null", LogType.Error);
         //            }
         //        }
-
-
-
+        //        else
+        //        {
+        //            PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+        //        }
         //        return true;
         //    }
         //    return false;
         //}
 
-
-
-        bool Command_Currency(string command, string key)
+        private bool Command_StopBattleAcc(string command, string key)
         {
             if (command.IndexOf(key + " ") == 0)
             {
-                var para = command.Split(' ');
-                DataManager.Instance.GMAddCurrency(para[1].ToInt(), para[2].ToLong());
-                return true;
+                string[] param = command.Split(' ');
+                if (param.Length == 2)
+                {
+                    if (int.Parse(param[1]) == 0)
+                    {
+                        MultipleAPIController.Instance.isConsoleStopAcc = true;
+                        PrintLog($"Battle Acc Stop!", LogType.Log);
+                        return true;
+                    }
+                    else if (int.Parse(param[1]) == 1)
+                    {
+                        if (DataManager.Instance.BattleAccRemainTime > 0 && MultipleAPIController.Instance.isConsoleStopAcc)
+                        {
+                            EventManager.Instance.RaiseEvent("服务器通信", "双倍加速触发");
+                        }
+                        MultipleAPIController.Instance.isConsoleStopAcc = false;
+                        PrintLog($"Battle Acc Resume!", LogType.Log);
+                        return true;
+                    }
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
+        private bool Command_ExpEarning(string command, string key)
+        {
+            if (command == key)
+            {
+                DataManager.Instance.experienceModel.RpcUpgradeExperienceEarning();
+            }
+            return false;
+        }
+        void PrintLog(string log, LogType type)
+        {
+            Color color = default;
+            switch (type)
+            {
+                case LogType.Error:
+                    log = log.Insert(0, "[Error]");
+                    color = Color.red;
+                    break;
+                case LogType.Log:
+                    log = log.Insert(0, "[Log]");
+                    color = Color.green;
+                    break;
+            }
 
+            logText.text += $"\n<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{log}</color>";
+        }
 
     }
-
 }

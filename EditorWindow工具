@@ -27,10 +27,16 @@ namespace Assets.Editor.QATools1
     {
 
         //下面这个特性是在Unity的工具栏的入口
-        [MenuItem("QA/控制台")]
+        [MenuItem("QA/控制台 %_q")]
         static void ShowWindow()
         {
-            EditorWindow.GetWindow(typeof(TestTool), true, "控制台");
+            //EditorWindow.GetWindow(typeof(TestTool), true, "控制台");
+            //TestTool window = EditorWindow.GetWindow<TestTool>("控制台");
+           // window.Show();
+            Rect wr = new Rect(0, 0, 530, 520);
+            //另一种方式：myEditor window = (myEditor)EditorWindow.GetWindow(typeof(myEditor), true, "cayman");
+            TestTool window = (TestTool)EditorWindow.GetWindowWithRect<TestTool>(wr,true, "控制台");
+            window.Show();
         }   
         public Text logText;
         public InputField commandInputFiled;
@@ -58,6 +64,8 @@ namespace Assets.Editor.QATools1
         GUIStyle str_JingJiChangCheck = new GUIStyle("Button");
         GUIStyle guide = new GUIStyle("Button");
         string 跳关 = "";
+        string 跳关1 = "";
+        string 跳关2 = "";
         string info = "";
 
 
@@ -76,6 +84,10 @@ namespace Assets.Editor.QATools1
 
 
 
+        }
+        void OnDestroy()
+        {
+            Debug.Log("Destroyed...");
         }
         void OnGUI()
         {
@@ -125,7 +137,7 @@ namespace Assets.Editor.QATools1
                 SubmitCmd("currency 1012 " + str_AllCurrency);
                 SubmitCmd("currency 1013 " + str_AllCurrency);
                 SubmitCmd("currency 1014 " + str_AllCurrency);
-                info = "所有货币+" + str_AllCurrency;
+                //info = "所有货币+" + str_AllCurrency;
             }
             GUILayout.EndHorizontal();
 
@@ -140,7 +152,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1000 " + str_ZuanShi);
-                info = "获得钻石" + str_ZuanShi;
+                //info = "获得钻石" + str_ZuanShi;
             }
 
             {
@@ -152,7 +164,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1006 " + str_MoJingShi);
-                info = "获得魔晶石" + str_MoJingShi + "个";
+                //info = "获得魔晶石" + str_MoJingShi + "个";
             }
 
 
@@ -165,7 +177,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1001 " + str_LuLa);
-                info = "获得路拉" + str_LuLa;
+                //info = "获得路拉" + str_LuLa;
             }
 
             GUILayout.EndHorizontal();
@@ -181,7 +193,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1004 " + str_HuiXiang);
-                info = "获得回响" + str_HuiXiang;
+                //info = "获得回响" + str_HuiXiang;
             }
 
             {
@@ -193,7 +205,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1002 " + str_LingHunJingYan);
-                info = "获得灵魂经验" + str_LingHunJingYan;
+                //info = "获得灵魂经验" + str_LingHunJingYan;
             }
 
             GUILayout.EndHorizontal();
@@ -219,7 +231,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1007 " + str_GuBi);
-                info = "获得古币" + str_GuBi;
+                //info = "获得古币" + str_GuBi;
 
 
             }
@@ -233,7 +245,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1008 " + str_MiGongCoin);
-                info = "获得迷宫硬币" + str_MiGongCoin;
+                //info = "获得迷宫硬币" + str_MiGongCoin;
             }
 
             {
@@ -245,7 +257,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1009 " + str_RongYaoCoin);
-                info = "获得荣耀硬币" + str_RongYaoCoin;
+                //info = "获得荣耀硬币" + str_RongYaoCoin;
             }
 
 
@@ -261,7 +273,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1011 " + str_JiDiCoin);
-                info = "获得极地硬币" + str_JiDiCoin;
+                //info = "获得极地硬币" + str_JiDiCoin;
             }
 
 
@@ -275,7 +287,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1012 " + str_GongHuiCoin);
-                info = "获得公会" + str_GongHuiCoin;
+                //info = "获得公会" + str_GongHuiCoin;
             }
 
 
@@ -300,7 +312,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1014 " + str_QHJieJing);
-                info = "获得强化结晶" + str_QHJieJing;
+                //info = "获得强化结晶" + str_QHJieJing;
             }
 
 
@@ -313,7 +325,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1013 " + str_QHShi);
-                info = "获得强化石" + str_QHShi;
+                //info = "获得强化石" + str_QHShi;
             }
 
             {
@@ -325,7 +337,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("currency 1010 " + str_QHFenChen);
-                info = "获得强化粉尘" + str_QHFenChen;
+                //info = "获得强化粉尘" + str_QHFenChen;
             }
 
             GUILayout.EndHorizontal();
@@ -346,30 +358,30 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("技能证书*100", str_SkillBook, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2700000 100");
-                info = "获得技能证书 100";
+                //info = "获得技能证书 100";
             }
 
-            GUI.Label(new Rect(30, 400, 100, 20), info);
+            GUI.Label(new Rect(30, 370, 500, 30), info);
             if (GUILayout.Button("圣礼盐*100", str_ShengLiYan, GUILayout.ExpandWidth(true)))
             {
 
                 SubmitCmd("item 2 2201 100");
-                info = "圣礼盐 100";
+                //info = "圣礼盐 100";
             }
             if (GUILayout.Button("代金券*100", str_Voucher, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2606 100");
-                info = "代金券 100";
+                //info = "代金券 100";
             }
             if (GUILayout.Button("扫荡卷*100", str_WipeOut, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 2601 100");
-                info = "扫荡卷 100";
+                //info = "扫荡卷 100";
             }
             if (GUILayout.Button("竞技场门票*100", str_JingJiChangCheck, GUILayout.ExpandWidth(true)))
             {
                 SubmitCmd("item 2 390001 100");
-                info = "竞技场门票 100";
+                //info = "竞技场门票 100";
             }
 
             GUILayout.EndHorizontal();
@@ -381,28 +393,72 @@ namespace Assets.Editor.QATools1
                 //GUILayout.Label  文本显示
                 GUILayout.Label("跳关：", GUILayout.Width(60f));
                 //文本字段
-                跳关 = GUILayout.TextField(跳关, 25, GUILayout.Width(70f));
+                跳关 = GUILayout.TextField(跳关, 25, GUILayout.Width(20f));
+                GUILayout.Label("地区");
+                跳关1 = GUILayout.TextField(跳关1, 25, GUILayout.Width(20f));
+                GUILayout.Label("章");
+                跳关2 = GUILayout.TextField(跳关2, 25, GUILayout.Width(20f));
+                GUILayout.Label("节");
             }
             if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
             {
-                SubmitCmd("blink " + 跳关);
-                info = "调至" + 跳关;
+                int 章 = Convert.ToInt32(跳关1);
+                int 节 = Convert.ToInt32(跳关2);
+                if (跳关 == "1")  
+                {
+                    if (章 <= 3)
+                    {
+                        SubmitCmd("blink " + ((章-1)*3+节-1)+" 0");
+                        //info = "调至" + 跳关 + 跳关1 + 跳关2;
+                    }
+                    if (章 > 4 && 章 <= 7)
+                    {
+                        SubmitCmd("blink " + ((章 - 4) * 3 + 节 + 9) + " 0");
+                        //info = "调至" + 跳关 + 跳关1 + 跳关2;
+
+                    }
+                    //SubmitCmd("blink " + 跳关);
+                    //info = "调至" + 跳关;
+                }
+                if (跳关 == "2")
+                {
+                    SubmitCmd("blink " + ((章 - 1) * 4 + 节 + 25) + " 0");
+                    //info = "调至" + 跳关 + 跳关1 + 跳关2;
+                }
+                if (跳关 == "3")
+                {
+                    SubmitCmd("blink " + ((章 - 1) * 4 + 节 + 53) + " 0");
+                    //info = "调至" + 跳关 + 跳关1 + 跳关2;
+                }
+                if (跳关 == "4")
+                {
+                    SubmitCmd("blink " + ((章 - 1) * 4 + 节 + 81) + " 0");
+                    //info = "调至" + 跳关 + 跳关1 + 跳关2;
+                }
+                if (跳关 == "5")
+                {
+                    SubmitCmd("blink " + ((章 - 1) * 4 + 节 + 109) + " 0");
+                    //info = "调至" + 跳关 + 跳关1 + 跳关2;
+                }
+
+
+
             }
 
-            {
-                //GUILayout.Label  文本显示
-                GUILayout.Label("查询英雄id：", GUILayout.Width(60f));
-                //文本字段
-                跳关 = GUILayout.TextField(跳关, 25, GUILayout.Width(70f));
-            }
-            if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
-            {
-                string command1=""; 
-                var paras = command1.Split(' ');
-                int id = int.Parse(paras[1]);
-                var hero = TplManager.Instance.GetHeroByID(id);
-                info = Convert.ToString(id);
-            }
+            //{
+            //    //GUILayout.Label  文本显示
+            //    GUILayout.Label("查询英雄id：", GUILayout.Width(60f));
+            //    //文本字段
+            //    跳关 = GUILayout.TextField(跳关, 25, GUILayout.Width(70f));
+            //}
+            //if (GUILayout.Button("确定", GUILayout.ExpandWidth(false)))
+            //{
+            //    string command1=""; 
+            //    var paras = command1.Split(' ');
+            //    int id = int.Parse(paras[1]);
+            //    var hero = TplManager.Instance.GetHeroByID(id);
+            //    info = Convert.ToString(id);
+            //}
 
 
 
@@ -431,7 +487,7 @@ namespace Assets.Editor.QATools1
             if (GUILayout.Button("跳过新手引导", guide, GUILayout.ExpandWidth(false)))
             {
                 SubmitCmd("guide");
-                info = "跳过新手引导";
+                //info = "跳过新手引导";
                 //请使用游戏中的全局携程
                 //XXXXX.StartCoroutine(ExecuteCmds(list_cmds));
             }
@@ -515,8 +571,9 @@ namespace Assets.Editor.QATools1
             if (Command_ExpEarning(command, "expEarning")) return;
             if (Command_ClearNpcTask(command, "clearNpcTask")) return;
             if (Command_CloseOpening(command, "opening")) return;
-            PrintLog("Invalid Command", LogType.Error);
-            info = "123123123";
+            //PrintLog("Invalid Command", LogType.Error);
+            info = "[" + LogType.Error + "]" + "Invalid Command";
+
 
             //这条指令错误，移除它
             //historyCommonList.RemoveAt(historyCommonList.Count - 1);
@@ -752,9 +809,11 @@ namespace Assets.Editor.QATools1
                      () =>
                      {
                          if (cd != null)
-                             PrintLog($"cd 清零成功 当前计数 [{cd.CurrValue}]", LogType.Log);
+                             //PrintLog($"cd 清零成功 当前计数 [{cd.CurrValue}]", LogType.Log);
+                             info = "[" + LogType.Log + "]" + "cd 清零成功 当前计数" + cd.CurrValue ;
                          else
-                             PrintLog("cd 不存在!", LogType.Log);
+                             //PrintLog("cd 不存在!", LogType.Log);
+                             info = "[" + LogType.Log + "]" + "cd 不存在!";
 
                      },
                      "clearCD");
@@ -778,9 +837,11 @@ namespace Assets.Editor.QATools1
                      () =>
                      {
                          if (cd != null)
-                             PrintLog($"cd 恢复成功 当前计数 [{cd.CurrValue}]", LogType.Log);
+                             //PrintLog($"cd 恢复成功 当前计数 [{cd.CurrValue}]", LogType.Log);
+                             info = "[" + LogType.Log + "]" + "cd 恢复成功 当前计数" + cd.CurrValue;
                          else
-                             PrintLog("cd 不存在!", LogType.Log);
+                             //PrintLog("cd 不存在!", LogType.Log);
+                             info = "[" + LogType.Log + "]" + "cd 不存在!" ;
 
                      },
                      "resetCD");
@@ -796,7 +857,8 @@ namespace Assets.Editor.QATools1
             {
                 var paras = command.Split(' ');
 
-                PrintLog("关闭服务器", LogType.Log);
+                //PrintLog("关闭服务器", LogType.Log);
+                info = "[" + LogType.Log + "]" + "关闭服务器";
                 if (paras.Length > 0)
                 {
                     bool ret = false;
@@ -827,9 +889,12 @@ namespace Assets.Editor.QATools1
                      () =>
                      {
                          if (ret)
-                             PrintLog("发送邮件成功", LogType.Log);
+                             //PrintLog("发送邮件成功", LogType.Log);
+                             info = "[" + LogType.Log + "]" + "发送邮件成功";
+
                          else
-                             PrintLog("发送邮件失败!", LogType.Log);
+                             //PrintLog("发送邮件失败!", LogType.Log);
+                             info = "[" + LogType.Log + "]" + "发送邮件失败!";
 
                      },
                      "TestSendMail");
@@ -871,7 +936,8 @@ namespace Assets.Editor.QATools1
                     {
                         var equipment = TplManager.Instance.GetNewRandEquipmentById(equipRndList[i]);
                         DataManager.Instance.AcquireItem(equipment);
-                        PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+                        //PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "Acquired equipment" + equipment.name;
                     }
 
                     //}
@@ -883,7 +949,8 @@ namespace Assets.Editor.QATools1
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} -> rndItem <_dropId> <_monsterLv> <_drop> <_稀有度>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} -> rndItem <_dropId> <_monsterLv> <_drop> <_稀有度>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters " + key + "-> rndItem <_dropId> <_monsterLv> <_drop> <_稀有度>";
                 }
 
                 SaveDataManager.Instance.Save();
@@ -917,7 +984,7 @@ namespace Assets.Editor.QATools1
                     RpcServer.Instance.netServerControll.CallRpcRemoteThread(
                         () =>
                         {
-                            respon = RpcServer.Instance.Client.GetRandomDropItem(DataManager.Instance.userId, datas, int.Parse(paras[1]));
+                            respon = RpcServer.Instance.Client.GetRandomDropItem(DataManager.Instance.userId, 1, 10);
                         },
                         () =>
                         {
@@ -939,7 +1006,8 @@ namespace Assets.Editor.QATools1
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} -> dropItem <_dropGroupId> <_tplBattleId>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} -> dropItem <_dropGroupId> <_tplBattleId>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters " + key + "-> dropItem <_dropGroupId> <_tplBattleId>";
                 }
                 return true;
             }
@@ -1012,7 +1080,8 @@ BOSS血量: bossHp <_cur> <_max>
 "
     //+ $"userID: {DataManager.Instance.userId}"
     ;
-                PrintLog(info, LogType.Log);
+                //PrintLog(info, LogType.Log);
+                info = "[" + LogType.Log + "]" + info;
                 return true;
             }
             return false;
@@ -1042,11 +1111,13 @@ BOSS血量: bossHp <_cur> <_max>
                                 if (equipment != null)
                                 {
                                     DataManager.Instance.AcquireItem(equipment);
-                                    PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+                                    //PrintLog($"Acquired equipment [{equipment.name}]", LogType.Log);
+                                    info = "[" + LogType.Log + "]" + "Acquired equipment" + equipment.name;
                                 }
                                 else
                                 {
-                                    PrintLog($"Can't find equipment by id <{id}>", LogType.Error);
+                                    //PrintLog($"Can't find equipment by id <{id}>", LogType.Error);
+                                    info = "[" + LogType.Error + "]" + "Can't find equipment by id " + id;
                                 }
                                 break;
                             case 2:
@@ -1059,12 +1130,14 @@ BOSS血量: bossHp <_cur> <_max>
                                 {
                                     material = material.clone;
                                     DataManager.Instance.AcquireItem(material, amount);
-                                    PrintLog($"Acquired material [{material.name} *{amount}]", LogType.Log);
+                                    //PrintLog($"Acquired material [{material.name} *{amount}]", LogType.Log);
                                     //Debug.LogError("这里正在怎加粉末------------------------------------------");
+                                    info = "[" + LogType.Log + "]" + "Acquired equipment" + material.name + amount;
                                 }
                                 else
                                 {
-                                    PrintLog($"Can't find material by id <{id}>", LogType.Error);
+                                    //PrintLog($"Can't find material by id <{id}>", LogType.Error);
+                                    info = "[" + LogType.Error + "]" + "Can't find equipment by id " + id;
                                 }
                                 break;
                             case 3:
@@ -1073,27 +1146,32 @@ BOSS血量: bossHp <_cur> <_max>
                                 {
                                     consumable = consumable.clone;
                                     DataManager.Instance.AcquireItem(consumable, amount);
-                                    PrintLog($"Acquired material [{consumable.name} *{amount}]", LogType.Log);
+                                    //PrintLog($"Acquired material [{consumable.name} *{amount}]", LogType.Log);
+                                    info = "[" + LogType.Log + "]" + "Acquired equipment" + consumable.name + amount;
                                 }
                                 else
                                 {
-                                    PrintLog($"Can't find consumable by id <{id}>", LogType.Error);
+                                    //PrintLog($"Can't find consumable by id <{id}>", LogType.Error);
+                                    info = "[" + LogType.Error + "]" + "Can't find consumable by id " + id;
                                 }
                                 break;
                             default:
-                                PrintLog($"Can't find type <{type}>", LogType.Error);
+                                //PrintLog($"Can't find type <{type}>", LogType.Error);
+                                info = "[" + LogType.Error + "]" + "Can't find type " + type;
                                 break;
                         }
                     }
                     //如果转换失败就报错
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material only)]", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material only)]", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "_amount(Material only)";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material use only)]", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_type> <_id> [_amount(Material use only)]", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "_amount(Material use only)" ;
                 }
                 return true;
             }
@@ -1184,16 +1262,19 @@ BOSS血量: bossHp <_cur> <_max>
                         int preAmount = DataManager.Instance.bookExp;
                         DataManager.Instance.ChangeBookExp(amount);
                         //EventManager.Instance.RaiseEvent("开始播放book升级效果");
-                        PrintLog($"bExp {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.bookExp})", LogType.Log);
+                        //PrintLog($"bExp {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.bookExp})", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "bExp" + (amount > 0 ? "+" : "") + amount;
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>" ;
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>" ;
                 }
                 return true;
             }
@@ -1208,11 +1289,13 @@ BOSS血量: bossHp <_cur> <_max>
                 {
                     DataManager.Instance.finishGuide = true;
                     EventManager.Instance.RaiseEvent("结束新手引导流程");
-                    PrintLog($"{DataManager.Instance.userName} 试图跳过当前新手流程!", LogType.Log);
+                    //PrintLog($"{DataManager.Instance.userName} 试图跳过当前新手流程!", LogType.Log);
+                    info = "[" + LogType.Log + "]" + "试图跳过当前新手流程!";
                 }
                 catch
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
                 return true;
             }
@@ -1230,17 +1313,20 @@ BOSS血量: bossHp <_cur> <_max>
                     {
                         DataManager.GuideModel.RemoveGuideData(1, int.Parse(paras[1]));
                         string currentOption = "移除引导HeadID: ";
-                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        //PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "移除引导HeadID: " + DataManager.Instance.userName + currentOption + paras[1];
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Log + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                     return true;
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
             }
             return false;
@@ -1258,17 +1344,20 @@ BOSS血量: bossHp <_cur> <_max>
                         DataManager.GuideModel.RemoveAllData();
                         DataManager.Instance.finishGuide = false;
                         string currentOption = "重置引导: ";
-                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        // PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "重置引导: " + DataManager.Instance.userName + currentOption + paras[1];
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                     return true;
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
             }
             return false;
@@ -1285,17 +1374,20 @@ BOSS血量: bossHp <_cur> <_max>
                     {
                         DataManager.GuideModel.RemoveGuideData(2, int.Parse(paras[1]));
                         string currentOption = "移除引导解锁button: ";
-                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        //PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "移除引导解锁button: " + DataManager.Instance.userName + currentOption + paras[1];
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>" ;
                     }
                     return true;
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
             }
             return false;
@@ -1312,17 +1404,20 @@ BOSS血量: bossHp <_cur> <_max>
                     {
                         DataManager.GuideModel.SaveButtonName((Sts.Model.ButtonName)int.Parse(paras[1]));
                         //EventManager.Instance.RaiseEvent("ShowButton", (Sts.Model.ButtonName)int.Parse(paras[1]));
-                        PrintLog($"{(Sts.Model.ButtonName)int.Parse(paras[1])} 添加完毕", LogType.Log);
+                        //PrintLog($"{(Sts.Model.ButtonName)int.Parse(paras[1])} 添加完毕", LogType.Log);
+                        info = "[" + LogType.Log + "]" + paras[1] + "添加完毕";
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                     return true;
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
             }
             return false;
@@ -1336,11 +1431,13 @@ BOSS血量: bossHp <_cur> <_max>
                 {
                     EventManager.Instance.RaiseEvent("移除noTips");
                     string currentOption = "移除提示";
-                    PrintLog($"{DataManager.Instance.userName} {currentOption}", LogType.Log);
+                    //PrintLog($"{DataManager.Instance.userName} {currentOption}", LogType.Log);
+                    info = "[" + LogType.Log + "]" + "移除提示" + DataManager.Instance.userName + currentOption;
                 }
                 catch
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>"; 
                 }
             }
             return false;
@@ -1357,16 +1454,19 @@ BOSS血量: bossHp <_cur> <_max>
                     {
                         EventManager.Instance.RaiseEvent("增加主线任务进度", new ArrayList() { (Type_MainTaskID)int.Parse(paras[1]), int.Parse(paras[2]) });
                         string currentOption = "增加主线任务";
-                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        //PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "增加主线任务" + DataManager.Instance.userName + currentOption + paras[1];
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
 
             }
@@ -1396,16 +1496,19 @@ BOSS血量: bossHp <_cur> <_max>
                               DataManager.Instance.mainTaskIDList[i].State = "Get";
                       });
                         string currentOption = "增加所有主线任务";
-                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        //PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "增加所有主线任务" + DataManager.Instance.userName + currentOption + paras[1];
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>"; 
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>"; 
                 }
 
             }
@@ -1433,16 +1536,19 @@ BOSS血量: bossHp <_cur> <_max>
                           DataManager.Instance.mainTaskIDList = respon;
                       });
                         string currentOption = "清空主线任务";
-                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        //PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "清空主线任务" + DataManager.Instance.userName + currentOption + paras[1];
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
 
             }
@@ -1468,16 +1574,19 @@ BOSS血量: bossHp <_cur> <_max>
                       {
                       });
                         string currentOption = "清空日常任务";
-                        PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        //PrintLog($"{DataManager.Instance.userName} {currentOption} {paras[1]}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "清空日常任务" + DataManager.Instance.userName + currentOption + paras[1];
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
 
             }
@@ -1500,10 +1609,12 @@ BOSS血量: bossHp <_cur> <_max>
                   if (respon)
                   {
                       DataManager.TaskStoryData.GetTaskListByRPC();
-                      PrintLog("清空了支线任务", LogType.Log);
+                      //PrintLog("清空了支线任务", LogType.Log);
+                      info = "[" + LogType.Log + "]" + "清空了支线任务";
                   }
                   else
-                      PrintLog("清空失败", LogType.Error);
+                      //PrintLog("清空失败", LogType.Error);
+                      info = "[" + LogType.Error + "]" + "清空失败";
               });
                 return true;
             }
@@ -1525,16 +1636,19 @@ BOSS血量: bossHp <_cur> <_max>
                         long amount = long.Parse(paras[1]);
                         double preAmount = DataManager.Instance.gold;
                         DataManager.Instance.ChangeGold(amount);
-                        PrintLog($"Gold {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.gold})", LogType.Log);
+                        //PrintLog($"Gold {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.gold})", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "Gold" + (amount > 0 ? "+" : "") + amount + DataManager.Instance.gold;
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
                 return true;
             }
@@ -1589,16 +1703,19 @@ BOSS血量: bossHp <_cur> <_max>
 
                         // 服务端化 增加神力结晶
                         DataManager.Instance.RpcChangeSacredCrystal(amount);
-                        PrintLog("The fucking GM <color=#FFFFFF>piao</color> me again! :(", LogType.Log);
+                        //PrintLog("The fucking GM <color=#FFFFFF>piao</color> me again! :(", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "The fucking GM piao me again! :";
                     }
                     catch
                     {
-                        PrintLog("OhNoMyGM, I haven't a drop left...", LogType.Error);
+                        //PrintLog("OhNoMyGM, I haven't a drop left...", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "OhNoMyGM, I haven't a drop left...";
                     }
                 }
                 else
                 {
-                    PrintLog($"Holle~MyGM, What do you saying just now?", LogType.Error);
+                    //PrintLog($"Holle~MyGM, What do you saying just now?", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Holle~MyGM, What do you saying just now?";
                 }
                 return true;
             }
@@ -1618,16 +1735,19 @@ BOSS血量: bossHp <_cur> <_max>
                         long amount = long.Parse(paras[1]);
 
                         DataManager.Instance.ChangeMagicStone(amount);
-                        PrintLog("The fucking GM <color=#FFFFFF>piao</color> me again! :(", LogType.Log);
+                        //PrintLog("The fucking GM <color=#FFFFFF>piao</color> me again! :(", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "The fucking GM piao me again! :";
                     }
                     catch
                     {
-                        PrintLog("OhNoMyGM, I haven't a drop left...", LogType.Error);
+                        //PrintLog("OhNoMyGM, I haven't a drop left...", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "OhNoMyGM, I haven't a drop left...";
                     }
                 }
                 else
                 {
-                    PrintLog($"Holle~MyGM, What do you saying just now?", LogType.Error);
+                    //PrintLog($"Holle~MyGM, What do you saying just now?", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Holle~MyGM, What do you saying just now?";
                 }
                 return true;
             }
@@ -1646,16 +1766,19 @@ BOSS血量: bossHp <_cur> <_max>
                         float amount = float.Parse(paras[1]);
                         float preAmount = DataManager.Instance.exp;
                         DataManager.Instance.ChangeExp(amount);
-                        PrintLog($"Exp {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.exp})/{DataManager.Instance.expMax}", LogType.Log);
+                        //PrintLog($"Exp {(amount > 0 ? "+" : "") + amount } ({preAmount}=>{DataManager.Instance.exp})/{DataManager.Instance.expMax}", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "Exp" + (amount > 0 ? "+" : "") + amount + DataManager.Instance.exp / DataManager.Instance.expMax;
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
                 return true;
             }
@@ -1675,16 +1798,19 @@ BOSS血量: bossHp <_cur> <_max>
                         float amount = float.Parse(paras[1]);
                         double preAmount = DataManager.Instance.innerFire;
                         DataManager.Instance.RpcUpdateInnerFire(amount);
-                        PrintLog($"innerFire {(amount > 0 ? "+" : "") + amount }", LogType.Log);
+                        //PrintLog($"innerFire {(amount > 0 ? "+" : "") + amount }", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "innerFire " + (amount > 0 ? " + " : "") + amount;
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
                 return true;
             }
@@ -1711,16 +1837,19 @@ BOSS血量: bossHp <_cur> <_max>
                             DataManager.Instance.RpcUpdateReExp(amount);
                         }
 
-                        PrintLog("OMG! You need Souls? Are you 'Devil'?", LogType.Log);
+                        //PrintLog("OMG! You need Souls? Are you 'Devil'?", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "OMG! You need Souls? Are you 'Devil'?";
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_value>";
                 }
                 return true;
             }
@@ -1812,28 +1941,33 @@ BOSS血量: bossHp <_cur> <_max>
                                         SaveDataManager.Instance.Save();
                                         EventManager.Instance.RaiseEvent("更新英雄信息界面");
 
-                                        PrintLog($"Get hero {hero.title}", LogType.Log);
-                                        info = "Get hero {hero.title}";
-                                    });
+                                        //PrintLog($"Get hero {hero.title}", LogType.Log);
+                                        info = "[" + LogType.Log + "]" + "Get hero " + hero.title;
+
+                            });
                             }
                             else
                             {
-                                PrintLog($"Can't find hero by id <{id}>", LogType.Error);
+                                //PrintLog($"Can't find hero by id <{id}>", LogType.Error);
+                                info = "[" + LogType.Error + "]" + "Can't find hero by id " + id;
                             }
                         }
                         else
                         {
-                            PrintLog($"Have been acquired {heroName}", LogType.Error);
+                            //PrintLog($"Have been acquired {heroName}", LogType.Error);
+                            info = "[" + LogType.Error + "]" + "Have been acquired " + heroName;
                         }
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_id>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_id>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_id>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_id>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_id>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_id>";
                 }
                 return true;
             }
@@ -1841,7 +1975,8 @@ BOSS血量: bossHp <_cur> <_max>
         }
         bool Command_UpgradeHeroQuality(string command, string key)
         {
-            PrintLog($"过期命令", LogType.Log);
+            //PrintLog($"过期命令", LogType.Log);
+            info = "[" + LogType.Log + "]" + "过期命令";
             return false;
         }
 
@@ -1890,12 +2025,14 @@ BOSS血量: bossHp <_cur> <_max>
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_chapterID> <_value>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_chapterID> <_value>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_chapterID> <_value>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_chapterID> <_value>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_chapterID> <_value>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_chapterID> <_value>";
                 }
                 return true;
             }
@@ -1914,11 +2051,13 @@ BOSS血量: bossHp <_cur> <_max>
                         content += " " + paras[i];
                     UIGlobal.instance.SendBubble(content);
 
-                    PrintLog($"Bubble Sent {content}", LogType.Log);
+                    //PrintLog($"Bubble Sent {content}", LogType.Log);
+                    info = "[" + LogType.Log + "]" + "Bubble Sent " + content;
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_content>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_content>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_content>";
                 }
                 return true;
             }
@@ -1932,7 +2071,8 @@ BOSS血量: bossHp <_cur> <_max>
                 EventManager.Instance.RaiseEvent("OpenMsgBox", new ArrayList{"立即前往贸易界面" ,
                                                                    new string[] { "贸易","取消" },
                                                                    new string[] { "打开贸易", "" }});
-                PrintLog($"Msgbox Test", LogType.Log);
+                //PrintLog($"Msgbox Test", LogType.Log);
+                info = "[" + LogType.Log + "]" + "Msgbox Test";
                 return true;
             }
             return false;
@@ -1968,7 +2108,8 @@ BOSS血量: bossHp <_cur> <_max>
                 EventManager.Instance.RaiseEvent("更新英雄信息界面");
                 EventManager.Instance.RaiseEvent("更新背包界面");
 
-                PrintLog($"Inventory cleared", LogType.Log);
+                //PrintLog($"Inventory cleared", LogType.Log);
+                info = "[" + LogType.Log + "]" + "Inventory cleared";
                 return true;
             }
             return false;
@@ -1980,7 +2121,8 @@ BOSS血量: bossHp <_cur> <_max>
                 SaveDataManager.Instance.Delete();
                 EventManager.Instance.RaiseEvent("更新英雄信息界面");
                 EventManager.Instance.RaiseEvent("更新背包界面");
-                PrintLog($"Save file has deleted", LogType.Log);
+                //PrintLog($"Save file has deleted", LogType.Log);
+                info = "[" + LogType.Log + "]" + "Save file has deleted";
                 return true;
             }
             return false;
@@ -1994,11 +2136,13 @@ BOSS血量: bossHp <_cur> <_max>
                 if (UI_BattleCommonController.Instance != null)
                 {
                     EventManager.Instance.RaiseEvent("PassLevel");
-                    PrintLog($"Level has passed", LogType.Log);
+                    //PrintLog($"Level has passed", LogType.Log);
+                    info = "[" + LogType.Log + "]" + "Level has passed";
                 }
                 else
                 {
-                    PrintLog($"Not in the battle scene", LogType.Error);
+                    //PrintLog($"Not in the battle scene", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Not in the battle scene";
                 }
                 return true;
             }
@@ -2011,11 +2155,13 @@ BOSS血量: bossHp <_cur> <_max>
                 if (UI_BattleCommonController.Instance != null)
                 {
                     EventManager.Instance.RaiseEvent("FailLevel");
-                    PrintLog($"Level has failed", LogType.Log);
+                    //PrintLog($"Level has failed", LogType.Log);
+                    info = "[" + LogType.Log + "]" + "Level has failed";
                 }
                 else
                 {
-                    PrintLog($"Not in the battle scene", LogType.Error);
+                    //PrintLog($"Not in the battle scene", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Not in the battle scene";
                 }
                 return true;
             }
@@ -2043,16 +2189,19 @@ BOSS血量: bossHp <_cur> <_max>
                             type = 0;
                         }
                         EventManager.Instance.RaiseEvent("Blink", new ArrayList { chapter, level, type });
-                        PrintLog($"They who live by the wand shall die by my blade!", LogType.Log);
+                        //PrintLog($"They who live by the wand shall die by my blade!", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "They who live by the wand shall die by my blade!";
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters : " + key;
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_chapter> <_level> <type>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters : " + key;
                 }
                 return true;
             }
@@ -2136,16 +2285,19 @@ BOSS血量: bossHp <_cur> <_max>
                         float max = float.Parse(paras[2]);
 
                         EventManager.Instance.RaiseEvent("更新BOSS血量", new ArrayList { cur, max });
-                        PrintLog($"Boss hp has updated", LogType.Log);
+                        //PrintLog($"Boss hp has updated", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "Boss hp has updated" ;
                     }
                     catch
                     {
-                        PrintLog($"Invalid parameters : {key} <_cur> <_max>", LogType.Error);
+                        //PrintLog($"Invalid parameters : {key} <_cur> <_max>", LogType.Error);
+                        info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_cur> <_max>";
                     }
                 }
                 else
                 {
-                    PrintLog($"Invalid parameters : {key} <_cur> <_max>", LogType.Error);
+                    //PrintLog($"Invalid parameters : {key} <_cur> <_max>", LogType.Error);
+                    info = "[" + LogType.Error + "]" + "Invalid parameters :" + key + "<_cur> <_max>";
                 }
                 return true;
             }
@@ -2196,7 +2348,8 @@ BOSS血量: bossHp <_cur> <_max>
                     if (int.Parse(param[1]) == 0)
                     {
                         MultipleAPIController.Instance.isConsoleStopAcc = true;
-                        PrintLog($"Battle Acc Stop!", LogType.Log);
+                        //PrintLog($"Battle Acc Stop!", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "Battle Acc Stop!";
                         return true;
                     }
                     else if (int.Parse(param[1]) == 1)
@@ -2206,7 +2359,8 @@ BOSS血量: bossHp <_cur> <_max>
                             EventManager.Instance.RaiseEvent("服务器通信", "双倍加速触发");
                         }
                         MultipleAPIController.Instance.isConsoleStopAcc = false;
-                        PrintLog($"Battle Acc Resume!", LogType.Log);
+                        //PrintLog($"Battle Acc Resume!", LogType.Log);
+                        info = "[" + LogType.Log + "]" + "Battle Acc Resume!";
                         return true;
                     }
                 }
@@ -2222,23 +2376,24 @@ BOSS血量: bossHp <_cur> <_max>
             }
             return false;
         }
-        void PrintLog(string log, LogType type)
-        {
-            Color color = default;
-            switch (type)
-            {
-                case LogType.Error:
-                    log = log.Insert(0, "[Error]");
-                    color = Color.red;
-                    break;
-                case LogType.Log:
-                    log = log.Insert(0, "[Log]");
-                    color = Color.green;
-                    break;
-            }
+        //void PrintLog(string log, LogType type)
+        //{
+        //    Color color = default;
+        //    switch (type)
+        //    {
+        //        case LogType.Error:
+        //            log = log.Insert(0, "[Error]");
+        //            color = Color.red;
+        //            break;
+        //        case LogType.Log:
+        //            log = log.Insert(0, "[Log]");
+        //            color = Color.green;
+        //            break;
+        //    }
 
-            logText.text += $"\n<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{log}</color>";
-        }
+        //    logText.text += $"\n<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{log}</color>";
+        //}
+            
 
     }
-}
+}   
